@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -16,7 +17,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'swApp', pathMatch: 'full'},
   {path: 'swApp', component: AppComponent, children: [
       {path: 'auth', component: AuthComponent},
-      {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
+      {path: 'main', component: MainComponent},
       {path: '', component: AuthComponent}
     ]}
 ];
@@ -43,7 +44,9 @@ const firebaseConfig = {
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireAuthModule, // auth
+    AngularFireAuthModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
