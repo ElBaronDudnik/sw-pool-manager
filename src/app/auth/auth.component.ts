@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../shared/auth.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { DatabaseService } from '../shared/database.service';
+import { Location } from '@angular/common';
+import { AuthService } from '../shared/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -15,13 +15,11 @@ export class AuthComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute,
-    private databaseService: DatabaseService
+    private location: Location
     ) {
-      //console.log(this.currentUser)
       if (this.currentUser) { 
-        //console.log(this.currentUser)
-        this.router.navigate(['/admin']);
+        console.log(this.currentUser);
+        this.router.navigate(['user'])
       }
     }
 

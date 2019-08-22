@@ -17,12 +17,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserComponent } from './user/user.component';
 import { Role } from './shared/role';
 import * as firebase from 'firebase';
+import { RouteGuard } from './shared/admin.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
   {path: 'auth', component: AuthComponent},
-  {path: 'user', component: UserComponent, canActivate: [AuthGuard], data: { roles: [Role.User] }},
-  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] }},
+  {path: 'user', component: UserComponent, canActivate: [AuthGuard, RouteGuard], data: { roles: [Role.User] }},
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard, RouteGuard], data: { roles: [Role.Admin] }},
   {path: '**', redirectTo: ''}
 ];
 

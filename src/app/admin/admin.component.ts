@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../shared/database.service';
-import * as firebase from 'firebase'
-import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
+import { User } from '../shared/user';
 
 
 @Component({
@@ -12,15 +10,12 @@ import { AuthService } from '../shared/auth.service';
 })
 export class AdminComponent implements OnInit {
   id: number;
-  constructor(private databaseService: DatabaseService,
-    private route: ActivatedRoute,
+  currentUser: User;
+  constructor(
     private authService: AuthService) { }
 
-  ngOnInit() {
-    this.authService.currentUser.subscribe(data => console.log(data));
-    //this.databaseService.getAll().subscribe(data => console.log(data));
-    // this.id = this.route.snapshot.queryParams['id'];
-    //this.databaseService.getById(this.id).subscribe(data => console.log(data));
+  ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
   logOut(){
     this.authService.logOut();

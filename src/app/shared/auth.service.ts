@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { Role } from './role';
 import { DatabaseService } from './database.service';
@@ -14,46 +12,44 @@ import { DatabaseService } from './database.service';
 export class AuthService {
   loginIn = true;
   state: boolean;
-  private currentUserSubject: Subject<User> = new Subject;
-  public currentUser: Observable<User>;
-
-  // userId = this.afAuth.authState.pipe(map(authState => authState.uid));
+  public currentUserSubject: BehaviorSubject<User>;
   constructor(
     private router: Router,
     private databaseService: DatabaseService
     ) {
-    // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    // this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserSubject = new BehaviorSubject<User>(new User());
   }
   authorization(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((res) => {
         const { displayName, email, uid } = res.user;
-        console.log(uid);
-        this.databaseService.getById(uid).subscribe(obtainedData => {
-          console.log(obtainedData);
-          this.currentUserSubject.next({
-            username: displayName,
-            email: email,
-            token: uid,
-            poolId: obtainedData['poolId'],
-            role: obtainedData['role'],
-          });
-          this.currentUser = this.currentUserSubject.asObservable();
-          localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-          console.log(this.currentUser, this.currentUserSubject)
-          // if (this.currentUserSubject == Role[0]){
-          //   this.goUserPage();
-          // } else {
-          //   this.goAdminPage();
-          // }
-        });
-      
+        this.getUserFromDatabase({displayName, email, uid});
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+    });
+  }
+  get currentUserValue() {
+    return this.currentUserSubject.value;
+  }
+
+  getUserFromDatabase({...arg}) {
+    this.databaseService.getById(arg.uid).subscribe(obtainedData => {
+      this.currentUserSubject.next({
+        username: arg.displayName,
+        email: arg.email,
+        token: arg.uid,
+        poolId: obtainedData['poolId'],
+        role: obtainedData['role'],
+      });
+      localStorage.setItem('currentUser', JSON.stringify(this.currentUserSubject.value));
+      if (this.currentUserSubject.value.role === Role["User"]){
+        this.goUserPage();
+      } else {
+        this.goAdminPage();
+      }
     });
   }
   logOut() {
@@ -69,5 +65,5 @@ export class AuthService {
   changeState() {
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user)
-    })}
+  })}
 }
