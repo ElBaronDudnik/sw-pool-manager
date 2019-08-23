@@ -1,31 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AuthGuard } from './shared/auth.guard';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'
 
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
-import { AdminComponent } from './admin/admin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UserComponent } from './user/user.component';
-import { Role } from './shared/role';
 import * as firebase from 'firebase';
-import { RouteGuard } from './shared/admin.guard';
-
-const routes: Routes = [
-  {path: '', redirectTo: 'auth', pathMatch: 'full'},
-  {path: 'auth', component: AuthComponent},
-  {path: 'user', component: UserComponent, canActivate: [AuthGuard, RouteGuard], data: { roles: [Role.User] }},
-  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard, RouteGuard], data: { roles: [Role.Admin] }},
-  {path: '**', redirectTo: ''}
-];
+import { AppRoutingModule } from './app-rounting.module';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCLNnJItXWuXxJeqnr-aqwXeIhozOGza2Q',
@@ -43,16 +28,12 @@ firebase.initializeApp(firebaseConfig);
   declarations: [
     AppComponent,
     AuthComponent,
-    AdminComponent,
-    UserComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireAuthModule,
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,

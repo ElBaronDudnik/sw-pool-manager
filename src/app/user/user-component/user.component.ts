@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/auth.service';
-import { User } from '../shared/user';
+import { AuthService } from '../../shared/auth.service';
+import { User } from '../../shared/user';
+import { ApiService } from 'src/app/shared/api.service';
 
 @Component({
   selector: 'app-user',
@@ -9,12 +10,16 @@ import { User } from '../shared/user';
 })
 export class UserComponent implements OnInit {
   currentUser: User;
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private apiService: ApiService) { }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
   }
-  logOut(){
+  
+  logOut() {
     this.authService.logOut();
   }
 

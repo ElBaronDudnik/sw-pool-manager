@@ -1,4 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap&subset=cyrillic');
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root{
+  --main-bg:  linear-gradient(to right, rgba(224,250,255,1) 0%, rgba(132,212,232,1) 100%);
+  --main-font: #4e5157;
+  --light-grey: #ececec;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}

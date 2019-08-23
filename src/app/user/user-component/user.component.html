@@ -1,0 +1,16 @@
+<div class="container">
+    <app-user-header [user] = "currentUser" (logOut) = "logOut($event)"></app-user-header>
+    <mat-card>
+        <mat-list>
+            <mat-list-item>Email:{{ currentUser?.email }}</mat-list-item>
+            <mat-list-item>PoolId:{{ currentUser?.poolId }}</mat-list-item>
+            <mat-list-item>Token:{{ currentUser?.token }}</mat-list-item>
+        </mat-list>
+    </mat-card>
+    <mat-card>
+        <app-graph></app-graph>
+    </mat-card>
+    <mat-card>
+        <app-channel-info></app-channel-info>
+    </mat-card>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { AuthService } from '../shared/auth.service';
-import { User } from '../shared/user';
+import { AuthService } from '../../shared/auth.service';
+import { User } from '../../shared/user';
 
 
 @Component({

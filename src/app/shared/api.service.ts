@@ -5,6 +5,12 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-  static url = 'https://sw-pool-manager.firebaseio.com/pools';
+  static url = 'https://api.thingspeak.com/channels';
   constructor(private http: HttpClient) {}
+
+  getInfo(channel: number) {
+    return this.http
+      .get(`${ApiService.url}/${channel}/feeds.json?results=1`);
+      
+  }
 }
