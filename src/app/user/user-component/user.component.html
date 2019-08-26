@@ -3,15 +3,24 @@
     <mat-card class = "general-info">
         <mat-list>
             <mat-list-item>Email: {{ currentUser?.email }}</mat-list-item>
-            <mat-list-item>PoolId: {{ currentUser?.poolId }}</mat-list-item>
-            <mat-list-item>Token: {{ currentUser?.token }}</mat-list-item>
+            <mat-list-item>PoolId: {{ currentUser?.pools[poolsIndex].poolId }}</mat-list-item>
+            <mat-list-item>Pool's Name: {{ currentUser?.pools[poolsIndex].poolName }}</mat-list-item>
         </mat-list>
         <img src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
     </mat-card>
+    <mat-card class="graphs_options">
+        <mat-form-field>
+            <input type="text" matInput placeholder="How many hours should be on the graph" value="24">
+        </mat-form-field>
+        <mat-form-field>
+            <input type="text" matInput placeholder="How many point should be in the hour" value="20">
+        </mat-form-field>
+        <button mat-raised-button>Change</button>
+    </mat-card>
     <mat-card class = "graph">
-        <app-graph [index] = "itemIndex" [currentPool] = "currentUser?.poolId"></app-graph>
+        <app-graph [index] = "itemIndex" [currentPool] = "currentUser?.pools[poolsIndex].poolId" [results] = "results"></app-graph>
     </mat-card>
     <mat-card class = "channel-info">
-        <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.poolId"></app-channel-info>
+        <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.pools[poolsIndex].poolId"></app-channel-info>
     </mat-card>
 </div>

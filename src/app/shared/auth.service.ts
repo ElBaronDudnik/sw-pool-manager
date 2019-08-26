@@ -41,7 +41,7 @@ export class AuthService {
         username: obtainedData['name'],
         email: arg.email,
         token: arg.uid,
-        poolId: obtainedData['poolId'],
+        pools: obtainedData['pools'],
         role: obtainedData['role'],
       });
       localStorage.setItem('currentUser', JSON.stringify(this.currentUserSubject.value));

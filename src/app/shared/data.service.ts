@@ -29,6 +29,7 @@ export class DataService {
                 tap(obj => {
                     const feeds = obj['feeds'];
                     const channel = obj['channel'];
+                    this.channelInfo = [];
                     for (let propFeeds in feeds[0]){
                         for (let propChannel in channel){
                             if (propFeeds == propChannel && propChannel != 'created_at') {

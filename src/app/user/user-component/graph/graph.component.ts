@@ -7,8 +7,9 @@ import { Component, Input } from "@angular/core";
 export class GraphComponent {
     @Input() index;
     @Input() currentPool;
+    @Input() results;
     url;
     ngOnChanges(): void {
-        this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}`
+        this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}`
     }
 }

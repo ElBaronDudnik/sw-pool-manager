@@ -11,14 +11,15 @@ export class ChannelInfoComponent {
     @Output() onchangeGraph = new EventEmitter();
     @Input() currentPool;
     channelInfo = [];
+    subscription;
     constructor(private dataService: DataService) {}
     ngOnInit(){
-        this.dataService.getInfo(this.currentPool)
-            .subscribe(data => this.channelInfo = data)
+        console.log(this.channelInfo)
+        this.subscription = this.dataService.getInfo(this.currentPool);
+        this.subscription.subscribe(data => this.channelInfo = data);
     }
     changeGraph(index){
         this.onchangeGraph.emit(index);
     }
-
     
 }

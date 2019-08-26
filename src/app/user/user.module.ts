@@ -2,6 +2,8 @@ import { NgModule } from "@angular/core";
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { UserComponent } from './user-component/user.component';
 import { UserRoutingModule } from './user-routing.module';
@@ -20,6 +22,8 @@ import { CommonModule } from '@angular/common';
         MatButtonModule,
         MatListModule,
         MatCardModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     declarations: [
         UserComponent,

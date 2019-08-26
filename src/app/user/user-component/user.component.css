@@ -13,11 +13,15 @@ mat-card{
 .channel-info{
     grid-column-start: 2;
     grid-row-start: 1;
-    grid-row-end: 3;
+    grid-row-end: 4;
 }
 .general-info{
     display: flex;
 }
 mat-list-item{
     font-family: 'Montserrat', sans-serif;
-  }
+}
+.graphs_options{
+    display: flex;
+    flex-direction: column;
+}

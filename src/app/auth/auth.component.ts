@@ -15,11 +15,9 @@ export class AuthComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private location: Location
     ) {
       if (this.currentUser) { 
-        console.log(this.currentUser);
-        this.router.navigate(['user'])
+        this.router.navigate(['home'])
       }
     }
 
