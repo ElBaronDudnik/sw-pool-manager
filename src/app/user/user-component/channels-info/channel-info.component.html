@@ -1,0 +1,7 @@
+<h4>Channel {{ channelNumber }} info:</h4>
+<mat-list>
+    <mat-list-item *ngFor = "let item of channelInfo; let i = index" (click) = "changeGraph(i)">
+        <span class = "keys">{{ item.name }}</span>
+        <span class = "values">{{ item.value }}</span>
+    </mat-list-item>
+</mat-list>

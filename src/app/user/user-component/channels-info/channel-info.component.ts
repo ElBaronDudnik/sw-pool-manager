@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
+import { Component, Output, EventEmitter, Input } from "@angular/core";
 import { ApiService } from 'src/app/shared/api.service';
-import { filter, map } from 'rxjs/operators';
+import { DataService } from 'src/app/shared/data.service';
 
 @Component({
     selector: 'app-channel-info',
@@ -8,15 +8,17 @@ import { filter, map } from 'rxjs/operators';
     styleUrls: ['./channel-info.component.css'],
 })
 export class ChannelInfoComponent {
-    channelNumber = 719005;
-    channelInfo = {};
-    constructor(private apiService: ApiService) {}
+    @Output() onchangeGraph = new EventEmitter();
+    @Input() currentPool;
+    channelInfo = [];
+    constructor(private dataService: DataService) {}
     ngOnInit(){
-        this.getInfo();
-        console.log(this.channelInfo)
+        this.dataService.getInfo(this.currentPool)
+            .subscribe(data => this.channelInfo = data)
     }
-    getInfo(){
-        this.apiService.getInfo(this.channelNumber)
-        .subscribe(data => this.channelInfo = data);
+    changeGraph(index){
+        this.onchangeGraph.emit(index);
     }
+
+    
 }

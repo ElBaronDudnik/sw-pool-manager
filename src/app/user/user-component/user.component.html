@@ -1,16 +1,17 @@
+<app-user-header [user] = "currentUser" (logOut) = "logOut($event)"></app-user-header>
 <div class="container">
-    <app-user-header [user] = "currentUser" (logOut) = "logOut($event)"></app-user-header>
-    <mat-card>
+    <mat-card class = "general-info">
         <mat-list>
-            <mat-list-item>Email:{{ currentUser?.email }}</mat-list-item>
-            <mat-list-item>PoolId:{{ currentUser?.poolId }}</mat-list-item>
-            <mat-list-item>Token:{{ currentUser?.token }}</mat-list-item>
+            <mat-list-item>Email: {{ currentUser?.email }}</mat-list-item>
+            <mat-list-item>PoolId: {{ currentUser?.poolId }}</mat-list-item>
+            <mat-list-item>Token: {{ currentUser?.token }}</mat-list-item>
         </mat-list>
+        <img src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
     </mat-card>
-    <mat-card>
-        <app-graph></app-graph>
+    <mat-card class = "graph">
+        <app-graph [index] = "itemIndex" [currentPool] = "currentUser?.poolId"></app-graph>
     </mat-card>
-    <mat-card>
-        <app-channel-info></app-channel-info>
+    <mat-card class = "channel-info">
+        <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.poolId"></app-channel-info>
     </mat-card>
 </div>

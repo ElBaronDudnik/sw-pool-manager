@@ -1,11 +1,21 @@
 <div class="form-container">
   <form action="#" (ngSubmit)="login()" [formGroup] = "form">
+    <h1>Hi<i class="material-icons">
+        pan_tool
+        </i>, I`m Swimming pool manager. </h1>
+    <h4>please, fill in the appropriate fields for further work with me. </h4>
     <mat-form-field>
-      <input matInput placeholder="Login" formControlName="login">
+      <input matInput placeholder="Login" color = "basic" formControlName="login">
+      <!-- <mat-error *ngIf="emailFormControl.hasError('login') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error> -->
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Password" formControlName="password" type="password">
     </mat-form-field>
-    <button type="submit" mat-fab color="primary">Send</button>
+    <button type="submit" mat-fab color = "basic">Send</button>
   </form>
 </div>

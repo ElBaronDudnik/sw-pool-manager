@@ -1,0 +1,19 @@
+.keys{
+    background: #e6f1ff;
+    padding: 10px 15px;
+    min-width: 300px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+.values{
+    padding: 10px 15px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+h4{
+    padding: 20px;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 20px;
+    margin: 0;  
+}

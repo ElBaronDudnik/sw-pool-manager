@@ -10,17 +10,16 @@ import { ApiService } from 'src/app/shared/api.service';
 })
 export class UserComponent implements OnInit {
   currentUser: User;
+  itemIndex = 1;
   constructor(
-    private authService: AuthService,
-    private apiService: ApiService) { }
-
+    private authService: AuthService,) { }
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    
   }
-  
   logOut() {
     this.authService.logOut();
   }
-
+  changeGraph(graphIndex) {
+    this.itemIndex = graphIndex + 1;
+  }
 }

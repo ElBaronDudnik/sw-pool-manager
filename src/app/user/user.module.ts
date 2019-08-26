@@ -10,10 +10,12 @@ import { GraphComponent } from './user-component/graph/graph.component';
 import { ChannelInfoComponent } from './user-component/channels-info/channel-info.component';
 
 import { SafePipe } from '../shared/safe.pipe';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
     imports: [
+        CommonModule,
         UserRoutingModule,
         MatButtonModule,
         MatListModule,

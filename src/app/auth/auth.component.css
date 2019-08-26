@@ -3,9 +3,17 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background: linear-gradient(to right, rgba(115,110,254,0.8) 0%, rgba(91, 221, 204, .8) 100%);
 }
 form{
     display: flex;
     flex-direction: column;
-    width: 30%
+    width: 70%
+}
+mat-form-field{
+    width: 70%;
+}
+h1, h4 {
+    color: #2b2b31;
+    margin: 10px 0;
 }

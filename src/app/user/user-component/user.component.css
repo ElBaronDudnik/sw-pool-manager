@@ -1,8 +1,23 @@
 .container{
     background: var(--main-bg);
-    height: 100vh;
+    min-height: 100vh;
+    padding-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    padding-top: 70px;
 }
 mat-card{
     max-width: 600px;
-    margin: 20px;
+    margin: 10px;
 }
+.channel-info{
+    grid-column-start: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+.general-info{
+    display: flex;
+}
+mat-list-item{
+    font-family: 'Montserrat', sans-serif;
+  }
