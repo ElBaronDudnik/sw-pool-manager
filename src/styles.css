@@ -21,3 +21,10 @@ img{
   height: auto;
   max-width: 200px;
 }
+.container{
+  background: var(--main-bg);
+  min-height: 100vh;
+  padding-bottom: 20px;
+  display: grid;
+  padding-top: 70px;
+}

@@ -1,35 +1,131 @@
-<app-user-header></app-user-header>
-<mat-card class="graphs_options">
-    <h4>Управление большим бассейном</h4>
-    <mat-slide-toggle 
+<div class="container">
+    <form action="">
+      <h4>Управление большим бассейном</h4>
+      <mat-card class="form-field-container">
+        <mat-slide-toggle
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          Освещение
+        </mat-slide-toggle>
+      </mat-card>
+      <mat-card class="form-field-container">
+        <mat-form-field>
+          <input type="text" matInput placeholder="Нижняя граница температуры" value="24">
+        </mat-form-field>
+        <button mat-raised-button>Change temperature</button>
+      </mat-card>
+      <mat-card class="form-field-container">
+        <mat-form-field>
+            <input type="text" matInput placeholder="Верхняя граница температуры" value="20">
+        </mat-form-field>
+        <button mat-raised-button>Change temperature</button>
+      </mat-card>
+      <mat-card class="form-field-container">
+        <h3>Настройки режима</h3>
+        <mat-form-field>
+            <mat-label>Mode</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let mode of modes" [value]="mode">
+                  {{mode}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button>Изменить режим</button>
+        <button mat-stroked-button>Изменить настройки режима</button>
+      </mat-card>
+      <mat-card class="form-field-container">
+        <mat-slide-toggle
+          [color]="color"
+          [checked]="checked"
+          [disabled]="disabled">
+          Включение резервного реле
+        </mat-slide-toggle>
+      </mat-card>
+    </form>
+
+  <form action="">
+    <h4>Управление гидромассажным бассейном</h4>
+    <mat-card class="form-field-container">
+      <mat-slide-toggle
         [color]="color"
         [checked]="checked"
         [disabled]="disabled">
         Освещение
-    </mat-slide-toggle>
-        <mat-form-field>
-            <input type="text" matInput placeholder="How many hours should be on the graph" value="24">
-            <button mat-raised-button>Change temperature</button>
-        </mat-form-field>
-        <mat-form-field>
-            <input type="text" matInput placeholder="How many point should be in the hour" value="20">
-            <button mat-raised-button>Change temperature</button>
-        </mat-form-field>
-        <h4>Basic mat-select</h4>
-        <mat-form-field>
-            <mat-label>Mode</mat-label>
-            <mat-select>
-                <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
-                {{food.viewValue}}
-                </mat-option> -->
-            </mat-select>
-        </mat-form-field>
-</mat-card>
-<mat-card class="graphs_options">
-    <h4>Управление гидромассажным бассейном</h4>
-    <mat-slide-toggle
+      </mat-slide-toggle>
+    </mat-card>
+    <mat-card class="form-field-container">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Нижняя граница температуры" value="24">
+      </mat-form-field>
+      <button mat-raised-button>Change temperature</button>
+    </mat-card>
+    <mat-card class="form-field-container">
+      <mat-form-field>
+        <input type="text" matInput placeholder="Верхняя граница температуры" value="20">
+      </mat-form-field>
+      <button mat-raised-button>Change temperature</button>
+    </mat-card>
+    <mat-card class="form-field-container">
+      <h3>Настройки режима</h3>
+      <mat-form-field>
+        <mat-label>Mode</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let mode of modes" [value]="mode">
+            {{mode}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button>Изменить режим</button>
+      <button mat-stroked-button (click)="openDialog()">Изменить настройки режима</button>
+    </mat-card>
+    <mat-card class="form-field-container">
+      <mat-slide-toggle
+        [color]="color"
         [checked]="checked"
         [disabled]="disabled">
-        Освещение
-    </mat-slide-toggle>
-</mat-card>
+        Включение резервного реле
+      </mat-slide-toggle>
+    </mat-card>
+  </form>
+
+    <form action="#">
+      <h4>Сигналы тревоги</h4>
+      <mat-card class="form-field-container">
+        <table>
+        <tr class="sensor">
+          <td>Датчик затопления</td>
+          <td><button mat-mini-fab color="warn"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Герконовый датчик уровня в расходной емкости Cl для бассейна</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Герконовый датчик уровня в расходной емкости активного кислорода для гидромассажного бассейна</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Сигнал аварии от автоматического 6-ти позиционного вентеля бассейна(Сухой контакт)</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Сигнал аварии от автоматического 6-ти позиционного вентеля г/м бассейна(Сухой контакт)</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Сигнал нижний/верхний датчик уровня воды емкости бассейна(Сухой контакт)</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Сигнал нижний/верхний датчик уровня воды емкости г/м бассейна(Сухой контакт)</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        <tr class="sensor">
+          <td>Сигнал тревоги резерв</td>
+          <td><button mat-mini-fab [color]="'primary'"></button></td>
+        </tr>
+        </table>
+      </mat-card>
+    </form>
+</div>

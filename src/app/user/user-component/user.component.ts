@@ -10,20 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserComponent implements OnInit {
   currentUser: User;
-  itemIndex = 1;
-  results = 200;
-  poolsIndex = 1;
   constructor(
-    private authService: AuthService,
-    private route: ActivatedRoute) { }
+    private authService: AuthService) { }
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    //this.poolsIndex = this.route.snapshot.data.poolNumber;
   }
   logOut() {
     this.authService.logOut();
   }
-  // changeGraph(graphIndex) {
-  //   this.itemIndex = graphIndex + 1;
-  // }
 }

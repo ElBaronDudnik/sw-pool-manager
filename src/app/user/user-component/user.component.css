@@ -1,8 +1,1 @@
-.container{
-    background: var(--main-bg);
-    min-height: 100vh;
-    padding-bottom: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    padding-top: 70px;
-}
+
