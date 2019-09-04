@@ -4,6 +4,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 import { UserComponent } from './user-component/user.component';
 import { UserRoutingModule } from './user-routing.module';
@@ -13,6 +15,8 @@ import { ChannelInfoComponent } from './user-component/channels-info/channel-inf
 
 import { SafePipe } from '../shared/safe.pipe';
 import { CommonModule } from '@angular/common';
+import { ManageComponent } from './user-component/manage/manage.component';
+import { ChannelComponent } from './user-component/channel/channel.component';
 
 
 @NgModule({
@@ -23,7 +27,9 @@ import { CommonModule } from '@angular/common';
         MatListModule,
         MatCardModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MatSlideToggleModule,
+        MatSelectModule,
     ],
     declarations: [
         UserComponent,
@@ -31,6 +37,8 @@ import { CommonModule } from '@angular/common';
         GraphComponent,
         SafePipe,
         ChannelInfoComponent,
+        ManageComponent,
+        ChannelComponent,
     ]
 })
 export class UserModule{

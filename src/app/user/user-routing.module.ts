@@ -1,21 +1,29 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from '@angular/router';
-import { UserComponent } from './user-component/user.component';
+import { ChannelComponent } from './user-component/channel/channel.component';
 import { AuthGuard } from '../shared/auth.guard';
+import { ManageComponent } from './user-component/manage/manage.component';
 
 const routes: Routes = [
+    {path: '', redirectTo: 'first', pathMatch: 'full'},
     {
-        path: '',
-        component: UserComponent,
+        path: 'first',
+        component: ChannelComponent,
         canActivate: [AuthGuard], 
         data: {poolNumber: 1}
     },
     {
         path: 'second',
-        component: UserComponent,
+        component: ChannelComponent,
         canActivate: [AuthGuard],
         data: {poolNumber: 2}
-    }
+    },
+    {
+        path: 'managing',
+        component: ManageComponent,
+        canActivate: [AuthGuard],
+    },
+    {path: '**', redirectTo: 'first'},
 ]
 
 @NgModule({

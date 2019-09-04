@@ -1,0 +1,35 @@
+<app-user-header></app-user-header>
+<mat-card class="graphs_options">
+    <h4>Управление большим бассейном</h4>
+    <mat-slide-toggle 
+        [color]="color"
+        [checked]="checked"
+        [disabled]="disabled">
+        Освещение
+    </mat-slide-toggle>
+        <mat-form-field>
+            <input type="text" matInput placeholder="How many hours should be on the graph" value="24">
+            <button mat-raised-button>Change temperature</button>
+        </mat-form-field>
+        <mat-form-field>
+            <input type="text" matInput placeholder="How many point should be in the hour" value="20">
+            <button mat-raised-button>Change temperature</button>
+        </mat-form-field>
+        <h4>Basic mat-select</h4>
+        <mat-form-field>
+            <mat-label>Mode</mat-label>
+            <mat-select>
+                <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{food.viewValue}}
+                </mat-option> -->
+            </mat-select>
+        </mat-form-field>
+</mat-card>
+<mat-card class="graphs_options">
+    <h4>Управление гидромассажным бассейном</h4>
+    <mat-slide-toggle
+        [checked]="checked"
+        [disabled]="disabled">
+        Освещение
+    </mat-slide-toggle>
+</mat-card>

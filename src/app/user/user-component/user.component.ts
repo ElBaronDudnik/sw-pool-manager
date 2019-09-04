@@ -18,12 +18,12 @@ export class UserComponent implements OnInit {
     private route: ActivatedRoute) { }
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.poolsIndex = this.route.snapshot.data.poolNumber;
+    //this.poolsIndex = this.route.snapshot.data.poolNumber;
   }
   logOut() {
     this.authService.logOut();
   }
-  changeGraph(graphIndex) {
-    this.itemIndex = graphIndex + 1;
-  }
+  // changeGraph(graphIndex) {
+  //   this.itemIndex = graphIndex + 1;
+  // }
 }

@@ -57,10 +57,10 @@ export class AuthService {
     this.router.navigate(['auth']);
   }
   goUserPage() {
-    this.router.navigate(['user']);
+    this.router.navigate(['home/firts']);
   }
   goAdminPage() {
-    this.router.navigate(['admin']);
+    this.router.navigate(['home']);
   }
   changeState() {
     firebase.auth().onAuthStateChanged((user) => {
