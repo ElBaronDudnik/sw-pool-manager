@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
 
 import { UserComponent } from './user-component/user.component';
 import { UserRoutingModule } from './user-routing.module';
@@ -20,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { ManageComponent } from './user-component/manage/manage.component';
 import { ChannelComponent } from './user-component/channel/channel.component';
 import { ModeDialogComponent } from './user-component/mode-dialog/mode-dialog.component';
+import { ModeConfigurationComponent } from './user-component/mode-configuration/mode-configuration.component';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { ModeDialogComponent } from './user-component/mode-dialog/mode-dialog.co
         MatSlideToggleModule,
         MatSelectModule,
         MatDialogModule,
+        MatTableModule
     ],
     declarations: [
         UserComponent,
@@ -45,6 +48,7 @@ import { ModeDialogComponent } from './user-component/mode-dialog/mode-dialog.co
         ManageComponent,
         ChannelComponent,
         ModeDialogComponent,
+        ModeConfigurationComponent,
     ],
   entryComponents: [ModeDialogComponent]
 })

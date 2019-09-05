@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter, Input } from "@angular/core";
-import { ApiService } from 'src/app/shared/api.service';
+import {Component, Output, EventEmitter, Input, OnInit} from '@angular/core';
 import { DataService } from 'src/app/shared/data.service';
 
 @Component({
@@ -7,19 +6,18 @@ import { DataService } from 'src/app/shared/data.service';
     templateUrl: './channel-info.component.html',
     styleUrls: ['./channel-info.component.css'],
 })
-export class ChannelInfoComponent {
+export class ChannelInfoComponent implements OnInit{
     @Output() onchangeGraph = new EventEmitter();
     @Input() currentPool;
     channelInfo = [];
     subscription;
     constructor(private dataService: DataService) {}
-    ngOnInit(){
-        console.log(this.channelInfo)
+    ngOnInit() {
+        console.log(this.channelInfo, this.currentPool)
         this.subscription = this.dataService.getInfo(this.currentPool);
         this.subscription.subscribe(data => this.channelInfo = data);
     }
-    changeGraph(index){
+    changeGraph(index) {
         this.onchangeGraph.emit(index);
     }
-    
 }

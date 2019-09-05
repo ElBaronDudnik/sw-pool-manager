@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="table-container" *ngFor = "let data of modesData">
+    <h3>{{data.name}}</h3>
+    <button mat-raised-button (click)="addRow()"> Добавить строку </button>
+    <button mat-raised-button (click)="removeRow()"> Удалить строку </button>
+    <mat-table [dataSource]="data.value" class="mat-elevation-z8">
+      <!-- Position Column -->
+      <ng-container matColumnDef="day">
+        <mat-header-cell *matHeaderCellDef> День недели </mat-header-cell>
+        <mat-cell *matCellDef="let element" contenteditable> {{element.day}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="hours">
+        <mat-header-cell *matHeaderCellDef> Часы </mat-header-cell>
+        <mat-cell *matCellDef="let element" contenteditable> {{element.hours}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="minutes">
+        <mat-header-cell *matHeaderCellDef> Минуты </mat-header-cell>
+        <mat-cell *matCellDef="let element" contenteditable> {{element.minutes}} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="state">
+        <mat-header-cell *matHeaderCellDef> Вкл/Выкл </mat-header-cell>
+        <mat-cell *matCellDef="let element" contenteditable> {{element.state}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

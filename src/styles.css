@@ -19,7 +19,7 @@ body{
 img{
   width: 100%;
   height: auto;
-  max-width: 200px;
+  max-width: 300px;
 }
 .container{
   background: var(--main-bg);
@@ -27,4 +27,5 @@ img{
   padding-bottom: 20px;
   display: grid;
   padding-top: 70px;
+  transition: 0.5s ease;
 }

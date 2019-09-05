@@ -34,8 +34,13 @@ a {
     line-height: 60px;
     text-transform: uppercase;
     transition: 0.5s ease;
+    border-bottom: 2px solid transparent;
 }
-a:hover, a.active {
+a:hover{
     background: rgb(238, 237, 237);
     color: rgb(59, 59, 59);
+}
+a.active{
+  border-bottom: 2px solid #181d8b;
+  color: #181d8b;
 }

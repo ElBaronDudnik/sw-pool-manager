@@ -1,24 +1,30 @@
 <div class="container">
   <mat-card class = "general-info">
+    <div class="info-container">
       <mat-list>
-          <mat-list-item>Email: {{ currentUser?.email }}</mat-list-item>
-          <mat-list-item>PoolId: {{ currentUser?.pools[poolsIndex].poolId }}</mat-list-item>
-          <mat-list-item>Pool's Name: {{ currentUser?.pools[poolsIndex].poolName }}</mat-list-item>
+        <mat-list-item>Email: {{ currentUser?.email }}</mat-list-item>
+        <mat-list-item>Id бассейна: {{ currentUser?.pools[poolsIndex].poolId }}</mat-list-item>
+        <mat-list-item>Название бассейна: {{ currentUser?.pools[poolsIndex].poolName }}</mat-list-item>
+        <mat-list-item>Освещение бассейна: {{ poolsIndex === 1 ? dataOutput.ledBig : dataOutput.ledGm }}</mat-list-item>
+        <mat-list-item>Температура бассейна: {{ poolsIndex === 1 ? dataOutput.tempBig : dataOutput.tempGm }}</mat-list-item>
       </mat-list>
-      <img src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
+      <img class = "pool_image" src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
+    </div>
   </mat-card>
-  <mat-card class="graphs_options">
+  <div class="graph-container">
+    <mat-card class="graphs_options">
       <mat-form-field>
-          <input type="text" matInput placeholder="How many hours should be on the graph" value="24">
+        <input type="text" matInput placeholder="Сколько часов должен отображать график" value="24"  [(ngModel)]="hours">
       </mat-form-field>
       <mat-form-field>
-          <input type="text" matInput placeholder="How many point should be in the hour" value="20">
+        <input type="text" matInput placeholder="Сколько точек должно быть в одном часу" value="20"  [(ngModel)]="points">
       </mat-form-field>
-      <button mat-raised-button>Change</button>
-  </mat-card>
-  <mat-card class = "graph">
+      <button mat-raised-button (click) = "changeGraphsOptions(hours*points)">Изменить</button>
+    </mat-card>
+    <mat-card class = "graph">
       <app-graph [index] = "itemIndex" [currentPool] = "currentUser?.pools[poolsIndex].poolId" [results] = "results"></app-graph>
-  </mat-card>
+    </mat-card>
+  </div>
   <mat-card class = "channel-info">
       <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.pools[poolsIndex].poolId"></app-channel-info>
   </mat-card>

@@ -5,18 +5,28 @@ mat-card{
 .channel-info{
     grid-column-start: 2;
     grid-row-start: 1;
-    grid-row-end: 4;
 }
 .general-info{
-    display: flex;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 mat-list-item{
-    font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 .graphs_options{
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .container{
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+}
+.pool_image{
+  object-fit: contain;
+  order: 1;
+  margin: 0 auto;
+  padding: 20px;
+}
+mat-list{
+  order: 2;
 }

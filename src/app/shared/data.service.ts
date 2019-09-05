@@ -4,9 +4,9 @@ import { tap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 class Fields {
-    fieldNumber: String;
-    name: String;
-    value: String;
+    fieldNumber: string;
+    name: string;
+    value: string;
     constructor(fieldNumber, name, value) {
         this.fieldNumber = fieldNumber;
         this.name = name;
@@ -15,32 +15,55 @@ class Fields {
 }
 
 @Injectable({
-    'providedIn': 'root'
+    providedIn: 'root'
 })
 export class DataService {
     channelInfo = [];
-    numberOfGraph = 1;
-
+    managingInfo = [];
+    sensorsInfo = [];
+    result;
     constructor(private apiService: ApiService) {
     }
-    getInfo(channelNumber){
+    rebuildInfo(obj) {
+      const feeds = obj['feeds'];
+      const channel = obj['channel'];
+      this.result = [];
+      for (let propFeeds in feeds[0]) {
+        for (let propChannel in channel) {
+          if (propFeeds === propChannel && propChannel !== 'created_at') {
+            const propName = channel[propChannel];
+            const propValue = feeds[0][propFeeds]
+            this.result.push(new Fields(propChannel, propName, propValue));
+          }
+        }
+      }
+      return this.result;
+    }
+    getInfo(channelNumber) {
         return this.apiService.getInfo(channelNumber)
             .pipe(
                 tap(obj => {
-                    const feeds = obj['feeds'];
-                    const channel = obj['channel'];
-                    this.channelInfo = [];
-                    for (let propFeeds in feeds[0]){
-                        for (let propChannel in channel){
-                            if (propFeeds == propChannel && propChannel != 'created_at') {
-                                const propName = channel[propChannel];
-                                const propValue = feeds[0][propFeeds]
-                                this.channelInfo.push(new Fields(propChannel, propName, propValue));
-                            }
-                        }
-                    }
+                  this.channelInfo = this.rebuildInfo(obj);
                 }),
                 switchMap(obj => of(this.channelInfo))
-            )
+            );
+    }
+    getManaging() {
+      return this.apiService.getManaging()
+        .pipe(
+          tap(obj => {
+            this.managingInfo = this.rebuildInfo(obj);
+          }),
+          switchMap(obj => of(this.managingInfo))
+        );
+    }
+    getSensors() {
+      return this.apiService.getSensors()
+        .pipe(
+          tap(obj => {
+            this.sensorsInfo = this.rebuildInfo(obj);
+          }),
+          switchMap(obj => of(this.sensorsInfo))
+        );
     }
 }

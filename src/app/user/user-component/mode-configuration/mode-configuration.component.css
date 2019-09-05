@@ -1,0 +1,14 @@
+.container{
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+h3{
+  text-transform: uppercase;
+  text-align: center;
+  color: #00858b;
+  font-size: 25px;
+  margin: 10px;
+}
+button{
+  margin: 20px;
+}

@@ -4,6 +4,7 @@ import { ChannelComponent } from './user-component/channel/channel.component';
 import { AuthGuard } from '../shared/auth.guard';
 import { ManageComponent } from './user-component/manage/manage.component';
 import {UserComponent} from './user-component/user.component';
+import {ModeConfigurationComponent} from './user-component/mode-configuration/mode-configuration.component';
 
 const routes: Routes = [
     {
@@ -31,6 +32,11 @@ const routes: Routes = [
         {
           path: 'managing',
           component: ManageComponent,
+          canActivate: [AuthGuard],
+        },
+        {
+          path: 'configuration',
+          component: ModeConfigurationComponent,
           canActivate: [AuthGuard],
         },
       ]
