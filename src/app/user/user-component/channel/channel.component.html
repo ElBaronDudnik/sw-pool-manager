@@ -5,26 +5,31 @@
         <mat-list-item>Email: {{ currentUser?.email }}</mat-list-item>
         <mat-list-item>Id бассейна: {{ currentUser?.pools[poolsIndex].poolId }}</mat-list-item>
         <mat-list-item>Название бассейна: {{ currentUser?.pools[poolsIndex].poolName }}</mat-list-item>
-        <mat-list-item>Освещение бассейна: {{ poolsIndex === 1 ? dataOutput.ledBig : dataOutput.ledGm }}</mat-list-item>
-        <mat-list-item>Температура бассейна: {{ poolsIndex === 1 ? dataOutput.tempBig : dataOutput.tempGm }}</mat-list-item>
+        <mat-list-item>Освещение бассейна: {{ poolsIndex === 1 ? (dataOutput.ledBig | state) : (dataOutput.ledGm | state) }}</mat-list-item>
       </mat-list>
       <img class = "pool_image" src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
     </div>
   </mat-card>
-  <div class="graph-container">
+  <form class="graph-container" [formGroup]="graphForm">
     <mat-card class="graphs_options">
       <mat-form-field>
-        <input type="text" matInput placeholder="Сколько часов должен отображать график" value="24"  [(ngModel)]="hours">
+        <input type="text" matInput placeholder="Сколько часов должен отображать график" [value]="hoursValue" [formControl]="hours">
       </mat-form-field>
+      <mat-error *ngIf="hours.invalid">
+        Колличество часов должно быть чиловым в промежутке от 1 до 50
+      </mat-error>
       <mat-form-field>
-        <input type="text" matInput placeholder="Сколько точек должно быть в одном часу" value="20"  [(ngModel)]="points">
+        <input type="text" matInput placeholder="Сколько точек должно быть в одном часу" [value]="pointsValue"  [formControl]="points">
       </mat-form-field>
-      <button mat-raised-button (click) = "changeGraphsOptions(hours*points)">Изменить</button>
+      <mat-error *ngIf="points.invalid">
+        Колличество точек должно быть чиловым в промежутке от 1 до 50
+      </mat-error>
+      <button mat-raised-button (click) = "changeGraphsOptions(hours.value*points.value)">Изменить</button>
     </mat-card>
     <mat-card class = "graph">
       <app-graph [index] = "itemIndex" [currentPool] = "currentUser?.pools[poolsIndex].poolId" [results] = "results"></app-graph>
     </mat-card>
-  </div>
+  </form>
   <mat-card class = "channel-info">
       <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.pools[poolsIndex].poolId"></app-channel-info>
   </mat-card>

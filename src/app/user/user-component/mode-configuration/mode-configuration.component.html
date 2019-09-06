@@ -1,35 +1,48 @@
 <div class="container">
-  <div class="table-container" *ngFor = "let data of modesData">
+  <div class="table-container" *ngFor = "let data of modesData; let i = index">
     <h3>{{data.name}}</h3>
-    <button mat-raised-button (click)="addRow()"> Добавить строку </button>
-    <button mat-raised-button (click)="removeRow()"> Удалить строку </button>
-    <mat-table [dataSource]="data.value" class="mat-elevation-z8">
-      <!-- Position Column -->
-      <ng-container matColumnDef="day">
-        <mat-header-cell *matHeaderCellDef> День недели </mat-header-cell>
-        <mat-cell *matCellDef="let element" contenteditable> {{element.day}} </mat-cell>
-      </ng-container>
+    <div class="button-container">
+      <div class="common-buttons">
+        <button mat-raised-button (click)="addRow(i)"> Добавить строку </button>
+        <button mat-raised-button (click)="deleteRow(i)"> Удалить строку </button>
+        <button mat-raised-button (click)="clear(i)"> Очистить таблицу </button>
+      </div>
+      <div class="main-button">
+        <button mat-raised-button color="primary" (click)="sendTable(i)"> Отправить таблицу</button>
+      </div>
+    </div>
+    <table>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="hours">
-        <mat-header-cell *matHeaderCellDef> Часы </mat-header-cell>
-        <mat-cell *matCellDef="let element" contenteditable> {{element.hours}} </mat-cell>
-      </ng-container>
+      <tr>
+        <th> День недели </th>
+        <th> Часы </th>
+        <th> Минуты </th>
+        <th> Сост. </th>
+        <th> Отправка </th>
+      </tr>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="minutes">
-        <mat-header-cell *matHeaderCellDef> Минуты </mat-header-cell>
-        <mat-cell *matCellDef="let element" contenteditable> {{element.minutes}} </mat-cell>
-      </ng-container>
+      <tr *ngFor = "let item of data.value; let j = index">
+        <td>
+          <p appEditable (contentBlur)="changeData($event, i, j, 'day')">{{ item.day }}</p>
+        </td>
+        <td>
+          <p appEditable (contentBlur)="changeData($event, i, j, 'hours')">{{ item.hours }}</p>
+        </td>
+        <td>
+          <p appEditable (contentBlur)="changeData($event, i, j, 'minutes')">{{ item.minutes | minutes }}</p>
+        </td>
+        <td>
+          <p appEditable (contentBlur)="changeData($event, i, j, 'state')">{{ item.state }}</p>
+        </td>
+        <td><button
+          mat-raised-button color="primary"
+          [disabled]="false" (click)="sendRow(i, j)"
+          *ngIf = "item.day !== undefined && item.hours !== undefined && item.minutes !== undefined && item.state !== undefined"
+        >Отправить строку</button></td>
+      </tr>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="state">
-        <mat-header-cell *matHeaderCellDef> Вкл/Выкл </mat-header-cell>
-        <mat-cell *matCellDef="let element" contenteditable> {{element.state}} </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+    </table>
   </div>
 </div>
+<!--(input) = "changeData($event.target.textContent, i, j, 'day')">{{ item.day || '' | dayOfWeek}}-->
+<!--<td contenteditable (keydown.enter) = "changeData($event.target.textContent, i, j, 'day')">{{ item.day | dayOfWeek }}</td>-->

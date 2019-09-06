@@ -10,6 +10,7 @@ export class GraphComponent implements OnChanges{
     @Input() results;
     url;
     ngOnChanges(): void {
+        console.log(this.results);
         this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}`;
     }
 }

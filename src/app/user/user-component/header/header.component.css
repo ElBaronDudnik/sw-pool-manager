@@ -44,3 +44,79 @@ a.active{
   border-bottom: 2px solid #181d8b;
   color: #181d8b;
 }
+
+.burger-menu{
+  position: relative;
+  height: 20px;
+  width: 30px;
+  margin: 0 20px;
+  display: none;
+  flex: 1;
+  cursor: pointer;
+}
+.burger {
+  position: absolute;
+  background: rgba(111,111,111,1);
+  width: 30px;
+  height: 3px;
+  opacity: 1;
+}
+.burger::before {
+  position: absolute;
+  background: rgba(111,111,111,1);
+  width: 30px;
+  height: 3px;
+  top: 10px;
+  content: "";
+  display: block;
+}
+.burger::after {
+  position: absolute;
+  background: rgba(111,111,111,1);
+  width: 30px;
+  height: 3px;
+  top: 20px;
+  content: "";
+  display: block;
+}
+.burger::after, .burger::before, .burger {
+  transition: all .3s ease-in-out;
+  -webkit-transition: all .3s ease-in-out;
+}
+
+.burger-menu.active .burger {
+   background-color: transparent;
+   transition: border-color ease-in .1s;
+ }
+
+.burger-menu.active .burger:before {
+   top: 10px;
+   transform: rotate(-45deg);
+   transition: top ease-out .2s, transform .2s ease-out .3s;
+ }
+
+.burger-menu.active .burger:after {
+   top: 10px;
+   transform: rotate(45deg);
+   transition: top ease-out .2s, transform .2s ease-out .3s;
+ }
+
+@media (max-width: 1080px) {
+  .burger-menu {
+    display: block;
+  }
+  nav{
+    left: -400px;
+    transition: left 0.5s ease .3s;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    z-index: 100;
+    background-color: white;
+  }
+  .burger-menu.active + nav{
+    left: 0;
+    transition: left 0.5s ease;
+  }
+}

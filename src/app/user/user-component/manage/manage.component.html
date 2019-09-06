@@ -1,5 +1,5 @@
 <div class="container">
-    <form action="">
+    <form action="#" [formGroup]="settingsBig" >
       <h4>Управление большим бассейном</h4>
       <mat-card class="form-field-container">
         <mat-slide-toggle
@@ -7,46 +7,62 @@
           [checked]="checkedBig"
           [disabled]="disabled"
           (change) = "changeLedBig()"
+          formControlName="led"
           >
           Освещение
         </mat-slide-toggle>
       </mat-card>
       <mat-card class="form-field-container">
-        <mat-form-field>
-          <input type="text" matInput placeholder="Температура" value="25.5" [(ngModel)] = "temperatureBig" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <button mat-raised-button>Изменить температуру</button>
-      </mat-card>
-      <mat-card class="form-field-container">
-        <mat-form-field>
-            <input type="text" matInput placeholder="Гистерезис" value="0.5" [(ngModel)] = "hysteresisBig" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-        <button mat-raised-button>Изменить гистерезис</button>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Температура" formControlName="temperature" [value] = "temperatureBig">
+          </mat-form-field>
+          <mat-error *ngIf="settingsBig.controls['temperature'].invalid && settingsBig.controls['temperature'].dirty">
+             Температра должна быть задана в интервале от 1 до 50
+          </mat-error>
+
+          <mat-form-field>
+            <input type="text" matInput placeholder="Гистерезис" formControlName="hysteresis" [value] = "hysteresisBig">
+          </mat-form-field>
+          <mat-error *ngIf="settingsBig.controls['hysteresis'].invalid && settingsBig.controls['hysteresis'].dirty">
+            Гистерезис должен быть задан в интервале от 0.1 до 3.0
+          </mat-error>
+
+          <button mat-raised-button (click) = "changeTemperatureBig()">Изменить температуру</button>
       </mat-card>
     </form>
 
-  <form action="">
-    <h4>Управление гидромассажным бассейном</h4>
+  <form action="#" [formGroup]="settingsGm">
+    <h4>Управление г/м бассейном</h4>
     <mat-card class="form-field-container">
       <mat-slide-toggle
         [color]="color"
         [checked]="checkedGm"
         [disabled]="disabled"
-        (change) = "changeLedGm()">
+        (change) = "changeLedGm()"
+        formControlName="led"
+      >
         Освещение
       </mat-slide-toggle>
     </mat-card>
     <mat-card class="form-field-container">
-      <mat-form-field>
-        <input type="text" matInput placeholder="Температура" value="25.5" [(ngModel)] = "temperatureGm" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-      <button mat-raised-button>Изменить температуру</button>
-    </mat-card>
-    <mat-card class="form-field-container">
-      <mat-form-field>
-        <input type="text" matInput placeholder="Гистерезис" value="0.5" [(ngModel)] = "hysteresisGm" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-      <button mat-raised-button>Изменить гистерезис</button>
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Температура" formControlName="temperature" [value] = "temperatureGm">
+        </mat-form-field>
+        <mat-error *ngIf="settingsGm.controls['temperature'].invalid && settingsGm.controls['temperature'].dirty">
+          Температра должна быть задана в интервале от 1 до 50
+        </mat-error>
+
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Гистерезис" formControlName="hysteresis" [value] = "hysteresisGm">
+        </mat-form-field>
+        <mat-error *ngIf="settingsGm.controls['hysteresis'].invalid && settingsGm.controls['hysteresis'].dirty">
+          Гистерезис должен быть задан в интервале от 0.1 до 3.0
+        </mat-error>
+
+        <button mat-raised-button (click) = "changeTemperatureGm()">Изменить температуру</button>
+
     </mat-card>
   </form>
 
@@ -94,7 +110,7 @@
       </mat-card>
     </form>
 
-  <form action="">
+  <form action="#">
     <h4>Система водоподготовки</h4>
     <mat-card class="form-field-container">
       <h3>Настройки режима</h3>
@@ -108,6 +124,10 @@
       </mat-form-field>
       <button mat-raised-button (click) = "changeMode(selectedValue)">Изменить режим</button>
     </mat-card>
+  </form>
+
+  <form action="">
+    <h4>Включение резервного реле</h4>
     <mat-card class="form-field-container">
       <mat-slide-toggle
         [color]="color"

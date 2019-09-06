@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/user';
 
 @Component({
@@ -6,13 +6,21 @@ import { User } from 'src/app/shared/user';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
     @Input() user;
+    active = false;
     @Output() logOut = new EventEmitter();
-    ngOnInit(){
+    @Output() opened = new EventEmitter<any>();
+
+    ngOnInit() {
         console.log(this.user);
     }
-    onLogOut(){
+    onLogOut() {
         this.logOut.emit();
+    }
+
+    onBurgerClicked() {
+      this.active = !this.active;
+      this.opened.emit();
     }
 }

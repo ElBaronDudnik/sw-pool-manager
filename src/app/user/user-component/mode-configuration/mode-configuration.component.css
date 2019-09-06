@@ -1,5 +1,5 @@
 .container{
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 50% 50%;
   grid-gap: 20px;
 }
 h3{
@@ -10,5 +10,50 @@ h3{
   margin: 10px;
 }
 button{
-  margin: 20px;
+  margin-right: 20px;
+}
+table{
+  background-color: white;
+  width: 95%;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  text-align: left;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+th, td{
+  padding: 0 15px;
+  height: 50px;
+  border: 1px solid gainsboro;
+  border-right: none;
+  border-left: none;
+  font-size: 15px;
+}
+th{
+  font-weight: normal;
+  color: gray;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 95%;
+  margin: 20px auto;
+}
+.common-buttons {
+  display: flex;
+}
+td button{
+
+}
+
+p{
+  min-width: 20px;
+  min-height: 10px;
+}
+
+
+@media (max-width: 1280px) {
+  .container {
+    grid-template-columns: 100%;
+  }
 }

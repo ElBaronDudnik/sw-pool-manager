@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
@@ -22,7 +23,10 @@ import { ManageComponent } from './user-component/manage/manage.component';
 import { ChannelComponent } from './user-component/channel/channel.component';
 import { ModeDialogComponent } from './user-component/mode-dialog/mode-dialog.component';
 import { ModeConfigurationComponent } from './user-component/mode-configuration/mode-configuration.component';
-
+import {DayOfWeekPipe} from '../shared/dayOfWeek.pipe';
+import {StatePipe} from '../shared/state.pipe';
+import {MinutesPipe} from '../shared/minutes.pipe';
+import {ContentEditableDirective} from '../shared/contenteditable.directive';
 
 @NgModule({
     imports: [
@@ -37,7 +41,8 @@ import { ModeConfigurationComponent } from './user-component/mode-configuration/
         MatSlideToggleModule,
         MatSelectModule,
         MatDialogModule,
-        MatTableModule
+        MatTableModule,
+        ReactiveFormsModule
     ],
     declarations: [
         UserComponent,
@@ -49,6 +54,10 @@ import { ModeConfigurationComponent } from './user-component/mode-configuration/
         ChannelComponent,
         ModeDialogComponent,
         ModeConfigurationComponent,
+        DayOfWeekPipe,
+        StatePipe,
+        MinutesPipe,
+        ContentEditableDirective
     ],
   entryComponents: [ModeDialogComponent]
 })

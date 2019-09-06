@@ -3,6 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { User } from 'firebase';
 import {DataService} from '../../../shared/data.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+export function numberValidator(control: FormControl) {
+  const value = Number(control.value);
+  return value < 50 && value > 1 ? null : {number: 'fail'};
+}
 
 @Component({
   selector: 'app-channel',
@@ -12,10 +18,13 @@ import {DataService} from '../../../shared/data.service';
 export class ChannelComponent implements OnInit {
   currentUser: User;
   itemIndex = 1;
-  results = 200;
   poolsIndex = 1;
-  hours;
-  points;
+  hours: FormControl;
+  points: FormControl;
+  graphForm: FormGroup;
+  hoursValue = JSON.parse(localStorage.getItem('hours')) || 20;
+  pointsValue = JSON.parse(localStorage.getItem('points')) || 20;
+  results = this.hoursValue * this.pointsValue || 200;
   dataOutput = {
     ledBig: undefined,
     ledGm: undefined,
@@ -26,7 +35,14 @@ export class ChannelComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
-    private dataService: DataService) { }
+    private dataService: DataService) {
+    this.hours = new FormControl(this.hoursValue, [Validators.required, numberValidator]);
+    this.points = new FormControl(this.pointsValue, [Validators.required, numberValidator]);
+    this.graphForm = new FormGroup({
+      hours: this.hours,
+      points: this.points
+    });
+  }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -39,10 +55,17 @@ export class ChannelComponent implements OnInit {
       this.dataOutput.reserv = data[5].value;
     });
   }
+
   changeGraph(graphIndex) {
      this.itemIndex = graphIndex + 1;
   }
-  changeGraphsOptions(number) {
-    this.results = number;
+
+  changeGraphsOptions(n) {
+    if (this.hours.valid && this.points.valid) {
+      console.log(n)
+      localStorage.setItem('hours', this.hours.value);
+      localStorage.setItem('points', this.points.value);
+      this.results = n;
+    }
   }
 }
