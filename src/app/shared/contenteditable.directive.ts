@@ -1,26 +1,60 @@
-import { Directive, HostListener, ElementRef, Renderer2, Input, Output, EventEmitter } from '@angular/core';
+import {Directive, HostListener, ElementRef, Renderer2, Output, EventEmitter, Input, OnChanges, OnInit} from '@angular/core';
 
 @Directive({
   selector: '[appEditable]'
 })
-export class ContentEditableDirective {
-  @Output() contentBlur = new EventEmitter<string>();
+export class ContentEditableDirective implements OnInit, OnChanges{
+  origModel: string;
+  @Input('appEditable') model: any;
+  @Output('contentBlur') update = new EventEmitter();
+  getText = () => {
+    console.log(this.elementRef);
+    return this.elementRef.nativeElement.value;
+  }
+
+  constructor( private elementRef: ElementRef ) { }
+
+  ngOnInit() {
+    this.origModel = this.getText();
+  }
+
+  ngOnChanges(changes) {
+    if (changes.model.isFirstChange()) { this.refreshView() }
+  }
+
+  setContentEditable(b: boolean) {
+    this.elementRef.nativeElement.setAttribute('contenteditable', b);
+  }
 
   @HostListener('click') click() {
-    this.r.setAttribute(this.el.nativeElement, 'contentEditable', 'true');
-    this.el.nativeElement.focus();
+    this.elementRef.nativeElement.setAttribute('contenteditable', 'true');
+    this.elementRef.nativeElement.focus();
   }
 
-  @HostListener('keydown.enter') onKeyPressEnter() {
-    this.onBlur();
+  @HostListener('blur')
+  emitChange() { // focus lost, emit if changed
+    this.setContentEditable(false);
+    const t = this.getText();
+    if (this.origModel !== t) { this.update.emit(t); }
+    this.origModel = t;
+    console.log(t);
+    return t;
   }
 
-  @HostListener('blur') onBlur() {
-    this.r.removeAttribute(this.el.nativeElement, 'contentEditable');
-    this.contentBlur.emit(this.el.nativeElement.innerText);
+  @HostListener('keydown', ['$event'])
+  onKeydown(e) {
+    if (e.which === 13) { // enter
+      e.preventDefault();
+      this.emitChange();
+    } else if (e.which === 27) { // esc
+      e.preventDefault();
+      this.refreshView();
+      this.setContentEditable(false);
+    }
   }
 
-  constructor(private el: ElementRef, private r: Renderer2) {
+  private refreshView() {
+    this.elementRef.nativeElement.innerText = this.model;
   }
 
 }

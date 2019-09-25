@@ -1,10 +1,10 @@
+<div class="loader" *ngIf = "loading">loading</div>
 <div class="container">
+  <button mat-raised-button color="primary" (click)="sendAllTables()" class="sendAllTables"> Отправить все таблицы</button>
   <div class="table-container" *ngFor = "let data of modesData; let i = index">
     <h3>{{data.name}}</h3>
     <div class="button-container">
       <div class="common-buttons">
-        <button mat-raised-button (click)="addRow(i)"> Добавить строку </button>
-        <button mat-raised-button (click)="deleteRow(i)"> Удалить строку </button>
         <button mat-raised-button (click)="clear(i)"> Очистить таблицу </button>
       </div>
       <div class="main-button">
@@ -18,31 +18,49 @@
         <th> Часы </th>
         <th> Минуты </th>
         <th> Сост. </th>
-        <th> Отправка </th>
+        <th> Удалить строку </th>
+        <th> Добавить строку </th>
       </tr>
 
       <tr *ngFor = "let item of data.value; let j = index">
         <td>
-          <p appEditable (contentBlur)="changeData($event, i, j, 'day')">{{ item.day }}</p>
+          <input contenteditable="true"
+                 [formControl]="daysControl"
+                 [value]="item.day"
+                 (change)="changeData($event.target.value, i, j, 'day')"
+                 (keyup.enter) = "removeBlur($event)"
+          >
         </td>
         <td>
-          <p appEditable (contentBlur)="changeData($event, i, j, 'hours')">{{ item.hours }}</p>
+          <input contenteditable="true"
+                 [formControl]="hoursControl"
+                 [value]="item.hours"
+                 (change)="changeData($event.target.value, i, j, 'hours')"
+                 (keyup.enter) = "removeBlur($event)">
         </td>
         <td>
-          <p appEditable (contentBlur)="changeData($event, i, j, 'minutes')">{{ item.minutes | minutes }}</p>
+          <input contenteditable="true"
+                 [formControl]="minutesControl"
+                 [value]="item.minutes"
+                 (change)="changeData($event.target.value, i, j, 'minutes')"
+                 (keyup.enter) = "removeBlur($event)">
         </td>
         <td>
-          <p appEditable (contentBlur)="changeData($event, i, j, 'state')">{{ item.state }}</p>
+          <input contenteditable="true"
+                 [formControl]="stateControl"
+                 [value]="item.state"
+                 (change)="changeData($event.target.value, i, j, 'state')"
+                 (keyup.enter) = "removeBlur($event)">
         </td>
-        <td><button
-          mat-raised-button color="primary"
-          [disabled]="false" (click)="sendRow(i, j)"
-          *ngIf = "item.day !== undefined && item.hours !== undefined && item.minutes !== undefined && item.state !== undefined"
-        >Отправить строку</button></td>
+        <td>
+          <button mat-mini-fab (click)="deleteRow(i, j)"> - </button>
+        </td>
+        <td>
+          <button mat-mini-fab (click)="addRow(i, j)"> + </button>
+        </td>
       </tr>
 
     </table>
   </div>
 </div>
-<!--(input) = "changeData($event.target.textContent, i, j, 'day')">{{ item.day || '' | dayOfWeek}}-->
-<!--<td contenteditable (keydown.enter) = "changeData($event.target.textContent, i, j, 'day')">{{ item.day | dayOfWeek }}</td>-->
+

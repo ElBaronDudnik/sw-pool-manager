@@ -5,11 +5,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export function temperatureValidator(control: FormControl) {
   const value = +control.value;
-  return value < 50 && value > 1 ? null : {temperature: 'fail'};
+  return value > 1 && value < 50 ? null : {temperature: 'fail'};
 }
 export function hysteresisValidator(control: FormControl) {
   const value = +control.value;
-  return control.value < 3 && control.value > 0.1 ? null : {hysteresis: 'fail'};
+  return control.value > 0.1 && control.value < 3 ? null : {hysteresis: 'fail'};
 }
 
 @Component({
@@ -67,6 +67,7 @@ export class ManageComponent implements OnInit {
       this.logData();
     });
   }
+
   logData() {
     this.temperatureBig = Math.floor(this.adminInfo[1].value / 1000);
     this.temperatureGm =  Math.floor(this.adminInfo[2].value / 1000);

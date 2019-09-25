@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {delay} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,8 @@ export class ApiService {
   writeToAdmin(param) {
     return this.http.post(`${ApiService.url}/channels/848348/feeds.json?results=2`, param);
   }
+  readResponse() {
+    return this.http.get(`${ApiService.url}/channels/848349/feeds.json?results=1`);
+  }
+
 }

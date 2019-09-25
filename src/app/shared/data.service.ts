@@ -102,4 +102,5 @@ export class DataService {
           switchMap(obj => of(this.adminInfo))
         );
     }
+
 }

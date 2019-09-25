@@ -27,6 +27,12 @@ import {DayOfWeekPipe} from '../shared/dayOfWeek.pipe';
 import {StatePipe} from '../shared/state.pipe';
 import {MinutesPipe} from '../shared/minutes.pipe';
 import {ContentEditableDirective} from '../shared/contenteditable.directive';
+import { ResponseInterceptor} from '../shared/response.interseptor';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {ApiService} from '../shared/api.service';
+import {AuthGuard} from '../shared/auth.guard';
+import {DataService} from '../shared/data.service';
+import {ContenteditableModule} from '@ng-stack/contenteditable';
 
 @NgModule({
     imports: [
@@ -42,7 +48,8 @@ import {ContentEditableDirective} from '../shared/contenteditable.directive';
         MatSelectModule,
         MatDialogModule,
         MatTableModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ContenteditableModule,
     ],
     declarations: [
         UserComponent,
@@ -57,9 +64,19 @@ import {ContentEditableDirective} from '../shared/contenteditable.directive';
         DayOfWeekPipe,
         StatePipe,
         MinutesPipe,
-        ContentEditableDirective
+        ContentEditableDirective,
     ],
-  entryComponents: [ModeDialogComponent]
+    providers: [
+      AuthGuard,
+      ApiService,
+      DataService,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: ResponseInterceptor,
+        multi: true
+      },
+    ],
+    entryComponents: [ModeDialogComponent]
 })
 export class UserModule {
 }
