@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { VERSION } from '../app.component';
 
 @Component({
   selector: 'app-auth',
@@ -10,14 +10,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  form: FormGroup;
-  currentUser = localStorage.getItem('currentUser');
+  public form: FormGroup;
+  public errors = false;
+  public version = VERSION;
+  public currentUser = localStorage.getItem('currentUser');
   constructor(
     private authService: AuthService,
     private router: Router,
     ) {
       if (this.currentUser) {
-        this.router.navigate(['home'])
+        this.router.navigate(['home']);
       }
     }
 
@@ -27,9 +29,14 @@ export class AuthComponent implements OnInit {
       password: new FormControl('', Validators.required),
     });
   }
-  login() {
+
+  login(): void {
     if (this.form.valid) {
-      this.authService.authorization(this.form.value.login, this.form.value.password);
+     this.authService.authorization(this.form.value.login, this.form.value.password).then(data => {
+       if (data === 'error') {
+         this.errors = true;
+       }
+     });
     }
   }
 

@@ -1,9 +1,17 @@
 .container{
   grid-template-columns: 50% 50%;
+  grid-template-rows: minmax(50px, max-content);
   grid-gap: 20px;
 }
 .sendAllTables{
   position: absolute;
+  left: 25px;
+}
+.timePicker{
+  position: absolute;
+  left: 225px;
+  width: 100px;
+  height: 50px
 }
 h3{
   text-transform: uppercase;
@@ -54,8 +62,21 @@ th{
 td button{
 
 }
+.loader-container {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4e5157;
+  width: 95%;
+  padding-left: 25px;
+  padding-top: 60px;
+}
 .loader{
-  padding-top: 70px;
+  padding-right: 20px;
 }
 
 input{
@@ -67,7 +88,7 @@ input{
   font-size: 14px;
 }
 .error {
-  border: 1px solid darkred;
+  outline: 2px solid indianred;
 }
 
 @media (max-width: 1280px) {

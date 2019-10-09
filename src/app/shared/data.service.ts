@@ -102,5 +102,14 @@ export class DataService {
           switchMap(obj => of(this.adminInfo))
         );
     }
+    getTables(results) {
+      return this.apiService.readModeTables(results)
+        .pipe(
+          tap(obj => {
+            this.adminInfo = this.rebuildAdmin(obj);
+          }),
+          switchMap(obj => of(this.adminInfo))
+        );
+    }
 
 }

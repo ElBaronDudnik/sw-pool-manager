@@ -100,6 +100,10 @@ a.active{
    transform: rotate(45deg);
    transition: top ease-out .2s, transform .2s ease-out .3s;
  }
+.version{
+  padding-left: 20px;
+  font-size: 12px;
+}
 
 @media (max-width: 1080px) {
   .burger-menu {

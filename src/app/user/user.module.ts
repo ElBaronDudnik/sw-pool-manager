@@ -33,6 +33,9 @@ import {ApiService} from '../shared/api.service';
 import {AuthGuard} from '../shared/auth.guard';
 import {DataService} from '../shared/data.service';
 import {ContenteditableModule} from '@ng-stack/contenteditable';
+import { MatProgressBarModule } from '@angular/material';
+import { SignalsComponent } from './user-component/signals/signals.component';
+import { GraphOptionsComponent } from './user-component/graph-options/graph-options.component';
 
 @NgModule({
     imports: [
@@ -48,6 +51,7 @@ import {ContenteditableModule} from '@ng-stack/contenteditable';
         MatSelectModule,
         MatDialogModule,
         MatTableModule,
+        MatProgressBarModule,
         ReactiveFormsModule,
         ContenteditableModule,
     ],
@@ -65,6 +69,8 @@ import {ContenteditableModule} from '@ng-stack/contenteditable';
         StatePipe,
         MinutesPipe,
         ContentEditableDirective,
+        SignalsComponent,
+        GraphOptionsComponent,
     ],
     providers: [
       AuthGuard,

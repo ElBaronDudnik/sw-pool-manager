@@ -1,21 +1,27 @@
 <div class="form-container">
+  <p class ="version">version: {{ version }}</p>
+
   <form action="#" (ngSubmit)="login()" [formGroup] = "form">
-    <h1>Hi<i class="material-icons">
-        pan_tool
-        </i>, I`m Swimming pool manager. </h1>
-    <h4>please, fill in the appropriate fields for further work with me. </h4>
-    <mat-form-field>
-      <input matInput placeholder="Login" color = "basic" formControlName="login">
-      <!-- <mat-error *ngIf="emailFormControl.hasError('login') && !emailFormControl.hasError('required')">
-        Please enter a valid email address
-      </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
-        Email is <strong>required</strong>
-      </mat-error> -->
+
+    <h1> Привет
+      <i class="material-icons">pan_tool</i>,
+      Я менеджер бассейнов. </h1>
+
+    <h4>Пожалуйста, заполните соответсвующие поля для дальнейшей работы. </h4>
+
+    <mat-form-field [class.mat-form-field-invalid]="errors">
+      <input matInput placeholder="Логин" color = "basic" formControlName="login">
     </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Password" formControlName="password" type="password">
+
+    <mat-form-field [class.mat-form-field-invalid]="errors">
+      <input matInput placeholder="Пароль" formControlName="password" type="password">
     </mat-form-field>
-    <button type="submit" mat-fab color = "basic">Send</button>
+
+    <mat-error *ngIf="errors || form.invalid && form.controls['login'].touched && form.controls['password'].touched">
+      Пожалуйста, введите корректные пароль и логин
+    </mat-error>
+
+    <button type="submit" mat-fab color = "basic">Отправить</button>
   </form>
+
 </div>

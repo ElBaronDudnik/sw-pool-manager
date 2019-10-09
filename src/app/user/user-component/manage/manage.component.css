@@ -28,6 +28,7 @@ h3{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-family: 'Montserrat', sans-serif;
 }
 .mat-stroked-button{
   display: block;
@@ -44,4 +45,5 @@ td{
   font-family: 'Montserrat', sans-serif;
   padding: 10px 0;
 }
+
 

@@ -2,12 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { User } from 'firebase';
-import {DataService} from '../../../shared/data.service';
+import { DataService } from '../../../shared/data.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export function numberValidator(control: FormControl) {
   const value = Number(control.value);
   return value < 50 && value > 1 ? null : {number: 'fail'};
+}
+
+interface DataOutput {
+  ledBig: string;
+  ledGm: string;
+  tempBig: string;
+  tempGm: string;
+  reserv: string;
 }
 
 @Component({
@@ -19,29 +27,18 @@ export class ChannelComponent implements OnInit {
   currentUser: User;
   itemIndex = 1;
   poolsIndex = 1;
-  hours: FormControl;
-  points: FormControl;
-  graphForm: FormGroup;
-  hoursValue = JSON.parse(localStorage.getItem('hours')) || 20;
-  pointsValue = JSON.parse(localStorage.getItem('points')) || 20;
-  results = this.hoursValue * this.pointsValue || 200;
-  dataOutput = {
+
+  dataOutput: DataOutput = {
     ledBig: undefined,
     ledGm: undefined,
     tempBig: undefined,
     tempGm: undefined,
-    reserv: undefined
+    reserv: undefined,
   };
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
     private dataService: DataService) {
-    this.hours = new FormControl(this.hoursValue, [Validators.required, numberValidator]);
-    this.points = new FormControl(this.pointsValue, [Validators.required, numberValidator]);
-    this.graphForm = new FormGroup({
-      hours: this.hours,
-      points: this.points
-    });
   }
 
   ngOnInit() {
@@ -60,12 +57,4 @@ export class ChannelComponent implements OnInit {
      this.itemIndex = graphIndex + 1;
   }
 
-  changeGraphsOptions(n) {
-    if (this.hours.valid && this.points.valid) {
-      console.log(n)
-      localStorage.setItem('hours', this.hours.value);
-      localStorage.setItem('points', this.points.value);
-      this.results = n;
-    }
-  }
 }

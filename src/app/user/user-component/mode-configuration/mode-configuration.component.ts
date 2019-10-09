@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/api.service';
 import { DataService } from '../../../shared/data.service';
 import {FormControl} from '@angular/forms';
-
 export class Modes {
   name: string;
   day: any;
@@ -18,6 +17,7 @@ export class Modes {
   }
 }
 
+
 const CUBE_256 = Math.pow(256, 3);
 const SQUARED_256 = Math.pow(256, 2);
 
@@ -28,6 +28,9 @@ const SQUARED_256 = Math.pow(256, 2);
 })
 export class ModeConfigurationComponent implements OnInit {
   adminData = [];
+  public progressMode = 'determinate';
+  public progressValue = 0;
+  public progressBufferValue = 75;
   public modesNames = ['стандартный', 'отпуск', 'интенсивный', 'пользовательский'];
   public modesCommands = [10, 35, 60, 85];
   public daysControl: FormControl;
@@ -36,6 +39,7 @@ export class ModeConfigurationComponent implements OnInit {
   public stateControl: FormControl;
   public loading = false;
   private time = 0;
+  public timeDif = 3;
   modesData = [];
   constructor(private apiService: ApiService,
               private dataService: DataService) {
@@ -43,6 +47,11 @@ export class ModeConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.readTablesFromServer();
+  }
+
+  changeTime(newTime) {
+    console.log(newTime);
+    this.timeDif = Number(newTime);
   }
 
   createFormControls() {
@@ -78,7 +87,7 @@ export class ModeConfigurationComponent implements OnInit {
   }
 
   readTablesFromServer() {
-    this.dataService.getAdmin(1)
+    this.dataService.getTables(1)
       .subscribe(lastData => {
         this.adminData = lastData;
         const rows = this.readQuantityRows();
@@ -96,10 +105,11 @@ export class ModeConfigurationComponent implements OnInit {
   }
 
   decodeTableData(rows) {
-    this.dataService.getAdmin(rows + 4).subscribe(allData => {
+    this.dataService.getTables(rows + 5).subscribe(allData => {
       this.adminData = allData;
+      this.modesData.forEach( table => table.value = []);
 
-      this.adminData[4].values.forEach((command, index) => {
+      this.adminData[0].values.forEach((command, index) => {
         if (command > 10 && command < 35) {
           this.modesData[0].value.push(this.decodeRow(index, rows));
         }
@@ -151,10 +161,15 @@ export class ModeConfigurationComponent implements OnInit {
     this.modesData[index].value = clearTable;
   }
 
-  changeData(text, parentIndex, childIndex, param) {
-    const inputValue = parseInt(text, 10);
-    this.modesData[parentIndex].value[childIndex][param] = inputValue;
-    localStorage.setItem('tableData', JSON.stringify(this.modesData));
+  changeData(el, parentIndex, childIndex, param) {
+    const inputValue = parseInt(el.target.value, 10);
+    if (this.checkValues(param, inputValue)) {
+      el.target.className = '';
+      this.modesData[parentIndex].value[childIndex][param] = inputValue;
+      localStorage.setItem('tableData', JSON.stringify(this.modesData));
+    } else {
+      el.target.className = 'error';
+    }
   }
 
   removeBlur(event) {
@@ -162,12 +177,22 @@ export class ModeConfigurationComponent implements OnInit {
   }
 
   sendAllTables() {
-    this.loading = true;
-    this.modesData.forEach((table, index) => {
-      this.sendTable(index);
-    });
-
-    this.sendToServer(this.calcTechCommand(9));
+    console.log(this.adminData[3].value);
+    // if (this.adminData[3].value != 0) {
+      const arrayTableData = [];
+      this.loading = true;
+      this.loaderProgress();
+      // this.modesData.forEach((table, index) => {
+      //   this.sendTable(index);
+      // });
+      for (const index in this.modesData) {
+        arrayTableData.push(...this.sendTable(index));
+      }
+      console.log(arrayTableData);
+      arrayTableData.push(this.calcTechCommand(9));
+      this.sendToServer(arrayTableData);
+      // this.sendToServer(this.calcTechCommand(9));
+    // }
   }
 
   calcTechCommand(command) {
@@ -175,7 +200,7 @@ export class ModeConfigurationComponent implements OnInit {
       + Math.pow(50, 2) * this.modesData[2].value.length + 50
       * this.modesData[1].value.length + this.modesData[0].value.length;
 
-    return [command * 65536 * 256 + itemToSend];
+    return command * 65536 * 256 + itemToSend;
   }
 
   sendTable(index) {
@@ -191,45 +216,97 @@ export class ModeConfigurationComponent implements OnInit {
     });
 
     numberToSend.push((this.modesData[index].command + 25) * CUBE_256 + controlSum);
-    this.sendToServer(numberToSend);
+    return numberToSend;
+    // this.sendToServer(numberToSend);
   }
+
+  // async sendToServer(arr) {
+  //   for (const item of arr) {
+  //     await this.apiService.sendCommand(item).subscribe();
+  //
+  //     // let data = null;
+  //     // let counter = 0;
+  //
+  //     // while (item != data && counter < 50 ) {
+  //     //   const answer = await this.apiService.readResponse();
+  //     //   answer.toPromise().then(() => {
+  //     //     data = answer.feeds[0].field1;
+  //     //     counter++;
+  //     //     console.log(data, item, counter);
+  //     //   })
+  //     //
+  //     // }
+  //
+  //   }
+  //
+  //   const answer = await this.apiService.sendCommand(arr[0]).subscribe();
+  //   console.log(answer);
+  //
+  //   const answer1 = await this.apiService.sendCommand(arr[1]).subscribe();
+  //   console.log(answer1);
+  //
+  //   const answer2 = await this.apiService.sendCommand(arr[2]).subscribe();
+  //   console.log(answer2);
+  //
+  // }
 
   sendToServer(arr) {
     const promisedArray = [];
     arr.forEach((item, index) => {
       const promise = new Promise((resolve) => {
-        this.time += 5000;
         setTimeout(() => {
           resolve(this.apiService.sendCommand(item).subscribe());
         }, this.time);
+        this.time += this.timeDif * 1000;
       });
       promisedArray.push(promise);
     });
 
     Promise.all(promisedArray)
-      .then((values) => console.log(values))
+      .then((values) => {})
       .catch((error) => console.error(error));
   }
 
+  loaderProgress() {
+    let loaderTime = 0;
+    this.modesData.forEach(table => {
+      loaderTime += table.value.length;
+    });
+    loaderTime = (loaderTime + 5) * this.timeDif * 1000;
+
+    setTimeout(() => {
+      this.loading = false;
+      this.progressValue = 0;
+    }, loaderTime);
+
+    const timerId = setInterval(() => this.progressValue += 0.1, loaderTime / 1000);
+    setTimeout(() => { clearInterval(timerId); }, loaderTime);
+  }
+
   readQuantityRows() {
-    const tableS = Math.floor(this.adminData[5].values[0]);
-    const tableV = Math.floor(this.adminData[6].values[0]);
-    const tableU = Math.floor(this.adminData[7].values[0] / 50);
-    const tableI = Math.floor(this.adminData[7].values[0] % 50);
-    const tables = [tableS, tableV, tableI, tableU];
-    let sum = 0;
-    for (let i = 0; i < 4; i++) {
-      sum += tables[i];
-      this.modesData.push({name: this.modesNames[i], command: this.modesCommands[i], value: [], rows: tables[i]});
+    if (this.adminData[0].values[0] === '9.00') {
+      const tableS = Math.floor(this.adminData[1].values[0]);
+      const tableV = Math.floor(this.adminData[2].values[0]);
+      const tableU = Math.floor(this.adminData[3].values[0] / 50);
+      const tableI = Math.floor(this.adminData[3].values[0] % 50);
+      const tables = [tableS, tableV, tableI, tableU];
+      let sum = 0;
+      console.log(tables);
+      for (let i = 0; i < 4; i++) {
+        sum += tables[i];
+        this.modesData.push({name: this.modesNames[i], command: this.modesCommands[i], value: [], rows: tables[i]});
+      }
+      return sum;
+    } else {
+      return null;
     }
-    return sum;
   }
 
   decodeRow(rowNumber, rows) {
-    const day =  Math.floor(this.adminData[5].values[rowNumber] / 10).toFixed();
-    const state = Math.floor(this.adminData[5].values[rowNumber] % 10).toFixed();
-    const hours = (+this.adminData[6].values[rowNumber]).toFixed();
-    const minutes = (+this.adminData[7].values[rowNumber]).toFixed();
+    const day =  Math.floor(this.adminData[1].values[rowNumber] / 10).toFixed();
+    const state = Math.floor(this.adminData[1].values[rowNumber] % 10).toFixed();
+    const hours = (+this.adminData[2].values[rowNumber]).toFixed();
+    const minutes = (+this.adminData[3].values[rowNumber]).toFixed();
     return new Modes(Number(day), Number(hours), Number(minutes), Number(state));
   }
 }

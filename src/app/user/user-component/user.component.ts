@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/auth.service';
 import { User } from '../../shared/user';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -9,13 +8,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  currentUser: User;
+  public currentUser: User;
   constructor(
     private authService: AuthService) { }
+
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
-  logOut() {
+
+  logOut(): void {
     this.authService.logOut();
   }
 }

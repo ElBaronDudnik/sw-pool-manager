@@ -1,14 +1,23 @@
-<div class="loader" *ngIf = "loading">loading</div>
 <div class="container">
-  <button mat-raised-button color="primary" (click)="sendAllTables()" class="sendAllTables"> Отправить все таблицы</button>
+  <button mat-raised-button color="primary" (click)="sendAllTables()" class="sendAllTables" [disabled]="loading"> Отправить все таблицы</button>
+  <input type="number" [value] = "timeDif" (change) = "changeTime($event.target.value)" class="timePicker">
+  <section class="loader-container">
+    <div class="box" *ngIf = "loading">
+      <div class="loader">Загрузка...</div>
+      <mat-progress-bar
+        class="loader-progressbar"
+        color="accent"
+        [mode]="progressMode"
+        [value]="progressValue"
+        [bufferValue]="progressBufferValue">
+      </mat-progress-bar>
+    </div>
+  </section>
   <div class="table-container" *ngFor = "let data of modesData; let i = index">
     <h3>{{data.name}}</h3>
     <div class="button-container">
       <div class="common-buttons">
         <button mat-raised-button (click)="clear(i)"> Очистить таблицу </button>
-      </div>
-      <div class="main-button">
-        <button mat-raised-button color="primary" (click)="sendTable(i)"> Отправить таблицу</button>
       </div>
     </div>
     <table>
@@ -27,7 +36,7 @@
           <input contenteditable="true"
                  [formControl]="daysControl"
                  [value]="item.day"
-                 (change)="changeData($event.target.value, i, j, 'day')"
+                 (change)="changeData($event, i, j, 'day')"
                  (keyup.enter) = "removeBlur($event)"
           >
         </td>
@@ -35,21 +44,21 @@
           <input contenteditable="true"
                  [formControl]="hoursControl"
                  [value]="item.hours"
-                 (change)="changeData($event.target.value, i, j, 'hours')"
+                 (change)="changeData($event, i, j, 'hours')"
                  (keyup.enter) = "removeBlur($event)">
         </td>
         <td>
           <input contenteditable="true"
                  [formControl]="minutesControl"
                  [value]="item.minutes"
-                 (change)="changeData($event.target.value, i, j, 'minutes')"
+                 (change)="changeData($event, i, j, 'minutes')"
                  (keyup.enter) = "removeBlur($event)">
         </td>
         <td>
           <input contenteditable="true"
                  [formControl]="stateControl"
                  [value]="item.state"
-                 (change)="changeData($event.target.value, i, j, 'state')"
+                 (change)="changeData($event, i, j, 'state')"
                  (keyup.enter) = "removeBlur($event)">
         </td>
         <td>

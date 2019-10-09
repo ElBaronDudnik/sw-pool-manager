@@ -30,11 +30,17 @@ export class ApiService {
     console.log(results);
     return this.http.get(`${ApiService.url}/channels/860835/feeds.json?results=${results}`);
   }
-  writeToAdmin(param) {
-    return this.http.post(`${ApiService.url}/channels/848348/feeds.json?results=2`, param);
+  temperatureTake() {
+    return this.http.get(`${ApiService.url}/channels/848348/feeds.json?results=1`);
   }
   readResponse() {
     return this.http.get(`${ApiService.url}/channels/848349/feeds.json?results=1`);
+  }
+  sendTable(param) {
+    return this.http.get(`${ApiService.url}/update?api_key=09HCRDBIEA05JNHD&field1=${param}`);
+  }
+  readModeTables(results) {
+    return this.http.get(`${ApiService.url}/channels/267003/feeds.json?results=${results}`);
   }
 
 }

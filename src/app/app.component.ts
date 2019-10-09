@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+export const VERSION = '1.4';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

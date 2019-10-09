@@ -13,7 +13,6 @@ export class ChannelInfoComponent implements OnInit{
     subscription;
     constructor(private dataService: DataService) {}
     ngOnInit() {
-        console.log(this.channelInfo, this.currentPool)
         this.subscription = this.dataService.getInfo(this.currentPool);
         this.subscription.subscribe(data => this.channelInfo = data);
     }

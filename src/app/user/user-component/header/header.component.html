@@ -8,7 +8,9 @@
         <a routerLink = "/home/second" routerLinkActive="active">Гидромассажный бассейн</a>
         <a routerLink = "/home/managing" routerLinkActive="active">Управление</a>
         <a routerLink = "/home/configuration" routerLinkActive="active">Настройки режимов</a>
+        <a routerLink = "/home/signals" routerLinkActive="active">Сигналы Управления и Тревоги</a>
     </nav>
     <h4>{{user.username}}</h4>
     <button mat-flat-button color="primary" (click) = "onLogOut()">Выйти</button>
+    <p class ="version">version: {{ version }}</p>
 </header>

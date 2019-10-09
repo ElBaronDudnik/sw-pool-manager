@@ -1,4 +1,5 @@
 <div class="container">
+
   <mat-card class = "general-info">
     <div class="info-container">
       <mat-list>
@@ -10,27 +11,10 @@
       <img class = "pool_image" src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
     </div>
   </mat-card>
-  <form class="graph-container" [formGroup]="graphForm">
-    <mat-card class="graphs_options">
-      <mat-form-field>
-        <input type="text" matInput placeholder="Сколько часов должен отображать график" [value]="hoursValue" [formControl]="hours">
-      </mat-form-field>
-      <mat-error *ngIf="hours.invalid">
-        Колличество часов должно быть чиловым в промежутке от 1 до 50
-      </mat-error>
-      <mat-form-field>
-        <input type="text" matInput placeholder="Сколько точек должно быть в одном часу" [value]="pointsValue"  [formControl]="points">
-      </mat-form-field>
-      <mat-error *ngIf="points.invalid">
-        Колличество точек должно быть чиловым в промежутке от 1 до 50
-      </mat-error>
-      <button mat-raised-button (click) = "changeGraphsOptions(hours.value*points.value)">Изменить</button>
-    </mat-card>
-    <mat-card class = "graph">
-      <app-graph [index] = "itemIndex" [currentPool] = "currentUser?.pools[poolsIndex].poolId" [results] = "results"></app-graph>
-    </mat-card>
-  </form>
+
+  <app-graph-options [poolsIndex] = "poolsIndex" [itemIndex] = "itemIndex" [currentUser] = "currentUser"></app-graph-options>
+
   <mat-card class = "channel-info">
-      <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.pools[poolsIndex].poolId"></app-channel-info>
+<!--      <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.pools[poolsIndex].poolId"></app-channel-info>-->
   </mat-card>
 </div>

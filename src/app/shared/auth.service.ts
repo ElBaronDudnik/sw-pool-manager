@@ -3,14 +3,12 @@ import {Router} from '@angular/router';
 import * as firebase from 'firebase';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
-import { Role } from './role';
 import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  loginIn = true;
   state: boolean;
   public currentUserSubject: BehaviorSubject<User>;
   constructor(
@@ -19,23 +17,23 @@ export class AuthService {
     ) {
     this.currentUserSubject = new BehaviorSubject<User>(new User());
   }
-  authorization(email, password) {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        const { displayName, email, uid } = res.user;
-        this.getUserFromDatabase({displayName, email, uid});
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-    });
+
+  async  authorization(emailAddress: string, password: string): Promise<string> {
+
+    try {
+      const res = await  firebase.auth().signInWithEmailAndPassword(emailAddress, password)
+      const { displayName, email, uid } = res.user;
+      this.getUserFromDatabase({displayName, email, uid});
+    } catch (e) {
+      return 'error';
+    }
   }
-  get currentUserValue() {
+
+  get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
-  getUserFromDatabase({...arg}) {
+  getUserFromDatabase({...arg}): void {
     this.databaseService.getById(arg.uid).subscribe(obtainedData => {
       this.currentUserSubject.next({
         username: obtainedData['name'],
@@ -44,26 +42,18 @@ export class AuthService {
         pools: obtainedData['pools'],
         role: obtainedData['role'],
       });
+
       localStorage.setItem('currentUser', JSON.stringify(this.currentUserSubject.value));
-      if (this.currentUserSubject.value.role === Role["User"]){
-        this.goUserPage();
-      } else {
-        this.goAdminPage();
-      }
+      this.goUserPage();
     });
   }
+
   logOut() {
     localStorage.removeItem('currentUser');
     this.router.navigate(['auth']);
   }
+
   goUserPage() {
-    this.router.navigate(['home/firts']);
+    this.router.navigate(['home/first']);
   }
-  goAdminPage() {
-    this.router.navigate(['home']);
-  }
-  changeState() {
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log(user)
-  })}
 }
