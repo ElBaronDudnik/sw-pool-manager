@@ -18,6 +18,7 @@ export class GraphOptionsComponent {
   @Input() poolsIndex;
   @Input() itemIndex;
   @Input() currentUser;
+  @Input() currentPool;
 
   constructor() {
     this.hours = new FormControl(this.hoursValue, [Validators.required, numberValidator]);

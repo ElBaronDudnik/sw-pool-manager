@@ -1,9 +1,20 @@
 <div class="container">
-  <mat-card>
-    <app-channel-info [currentPool]="'848346'"></app-channel-info>
+
+  <mat-card class="channel-options">
+    <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool]="'848346'"></app-channel-info>
   </mat-card>
-  <mat-card>
-    <app-channel-info [currentPool]="'848347'"></app-channel-info>
+
+
+  <app-graph-options [poolsIndex] = "poolsIndex" [itemIndex] = "itemIndex" [currentUser] = "currentUser" [currentPool]="'848346'"></app-graph-options>
+
+
+  <mat-card class="channel-options">
+    <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool]="'848347'"></app-channel-info>
   </mat-card>
+
+
+  <app-graph-options [poolsIndex] = "poolsIndex" [itemIndex] = "itemIndex" [currentUser] = "currentUser" [currentPool]="'848346'"></app-graph-options>
+
+
 </div>
 

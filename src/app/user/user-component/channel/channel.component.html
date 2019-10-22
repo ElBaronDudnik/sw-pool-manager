@@ -12,9 +12,9 @@
     </div>
   </mat-card>
 
-  <app-graph-options [poolsIndex] = "poolsIndex" [itemIndex] = "itemIndex" [currentUser] = "currentUser"></app-graph-options>
+  <app-graph-options [poolsIndex] = "poolsIndex" [itemIndex] = "itemIndex" [currentUser] = "currentUser" [currentPool]="currentPool"></app-graph-options>
 
   <mat-card class = "channel-info">
-<!--      <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentUser?.pools[poolsIndex].poolId"></app-channel-info>-->
+      <app-channel-info (onchangeGraph) = "changeGraph($event)" [currentPool] = "currentPool"></app-channel-info>
   </mat-card>
 </div>

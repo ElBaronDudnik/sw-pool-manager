@@ -1,0 +1,9 @@
+.graphs_options{
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card{
+
+  margin: 10px;
+}
