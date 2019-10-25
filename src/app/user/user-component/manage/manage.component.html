@@ -14,9 +14,9 @@
       </mat-card>
       <mat-card class="form-field-container">
 
-          <p>Температура descone: <span>{{ tempDesconeBig }}</span></p>
+          <p>Температура Дозирующей Станции: <span>{{ tempDesconeBig }}</span></p>
 
-          <p>Нагреватель:<span> {{ heaterBig ? 'Вкл' : 'Выкл' }}</span></p>
+          <p>Нагреватель:<span> {{ heaterBig ? 'Включен' : 'Выключен' }}</span></p>
 
           <mat-form-field>
             <input type="text" matInput placeholder="Температура" formControlName="temperature" [value] = "temperatureBig">
@@ -32,7 +32,7 @@
             Гистерезис должен быть задан в интервале от 0.1 до 3.0
           </mat-error>
 
-          <button mat-raised-button (click) = "changeTemperatureBig()">Изменить температуру</button>
+          <button mat-raised-button (click) = "changeTemperatureBig()">Заменить параметры регулирования</button>
       </mat-card>
     </form>
 
@@ -51,9 +51,9 @@
     </mat-card>
     <mat-card class="form-field-container">
 
-      <p>Температура descone: <span>{{ tempDesconeGm }}</span></p>
+      <p>Температура Дозирующей Станции: <span>{{ tempDesconeGm }}</span></p>
 
-      <p>Нагреватель: <span> {{ heaterGm ? 'Вкл' : 'Выкл' }}</span></p>
+      <p>Нагреватель: <span> {{ heaterGm ? 'Включен' : 'Выключен' }}</span></p>
 
         <mat-form-field>
           <input type="text" matInput placeholder="Температура" formControlName="temperature" [value] = "temperatureGm">
@@ -70,7 +70,7 @@
           Гистерезис должен быть задан в интервале от 0.1 до 3.0
         </mat-error>
 
-        <button mat-raised-button (click) = "changeTemperatureGm()">Изменить температуру</button>
+        <button mat-raised-button (click) = "changeTemperatureGm()">Заменить параметры регулирования</button>
 
     </mat-card>
   </form>
@@ -122,7 +122,7 @@
   <form action="#">
     <h4>Система водоподготовки</h4>
     <mat-card class="form-field-container">
-      <p>Водоподготовка: <span>{{ waterTreatment ? 'Вкл' : 'Выкл'}}</span></p>
+      <p>Водоподготовка: <span>{{ waterTreatment ? 'Включена' : 'Выключена'}}</span></p>
       <h3>Настройки режима</h3>
       <mat-form-field>
         <mat-label>Mode</mat-label>
@@ -132,7 +132,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-raised-button (click) = "changeMode(selectedValue)">Изменить режим</button>
+      <button mat-raised-button (click) = "changeMode(selectedValue)">Переключить режим</button>
     </mat-card>
   </form>
 

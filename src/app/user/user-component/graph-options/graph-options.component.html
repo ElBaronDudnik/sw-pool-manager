@@ -2,17 +2,17 @@
 
   <mat-card class="graphs_options">
 
-    <mat-form-field>
-      <input type="text" matInput placeholder="Сколько часов должен отображать график" [value]="hoursValue" [formControl]="hours">
-    </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Сколько часов должен отображать график" [value]="hoursValue" [formControl]="hours">
+  </mat-form-field>
 
-    <mat-error *ngIf="hours.invalid">
-      Колличество часов должно быть чиловым в промежутке от 1 до 50
-    </mat-error>
+  <mat-error *ngIf="hours.invalid">
+    Колличество часов должно быть чиловым в промежутке от 1 до 50
+  </mat-error>
 
-    <mat-form-field>
-      <input type="text" matInput placeholder="Сколько точек должно быть в одном часу" [value]="pointsValue"  [formControl]="points">
-    </mat-form-field>
+  <mat-form-field>
+    <input type="text" matInput placeholder="Сколько точек должно быть в одном часе" [value]="pointsValue"  [formControl]="points">
+  </mat-form-field>
 
     <mat-error *ngIf="points.invalid">
       Колличество точек должно быть чиловым в промежутке от 1 до 50

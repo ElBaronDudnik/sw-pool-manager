@@ -3,13 +3,26 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class DatabaseService {
-    static url = 'https://sw-pool-manager.firebaseio.com/users'
+    static url = 'https://sw-pool-manager.firebaseio.com'
     constructor(private http: HttpClient){}
-    getAll() {
-        return this.http.get(`${DatabaseService.url}.json`);
+    
+    getUserById(id) {
+        return this.http.get(`${DatabaseService.url}/users/${id}.json`);
     }
-    getById(id) {
-        console.log(id)
-        return this.http.get(`${DatabaseService.url}/${id}.json`);
+
+    getAlarms() {
+        return this.http.get(`${DatabaseService.url}/alarms.json`);
+    }
+
+    getControls() {
+        return this.http.get(`${DatabaseService.url}/controls.json`)
+    }
+
+    getModeTables() {
+        return this.http.get(`${DatabaseService.url}/modeTables.json`);
+    }
+
+    getRelayStatus() {
+        return this.http.get(`${DatabaseService.url}/relayStatus.json`);
     }
 }

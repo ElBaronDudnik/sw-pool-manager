@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   getUserFromDatabase({...arg}): void {
-    this.databaseService.getById(arg.uid).subscribe(obtainedData => {
+    this.databaseService.getUserById(arg.uid).subscribe(obtainedData => {
       this.currentUserSubject.next({
         username: obtainedData['name'],
         email: arg.email,
