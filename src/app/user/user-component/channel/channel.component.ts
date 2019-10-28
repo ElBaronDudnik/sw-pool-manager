@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared/auth.service';
 import { User } from 'firebase';
 import { DataService } from '../../../shared/data.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatabaseService } from 'src/app/shared/database.service';
 
 export function numberValidator(control: FormControl) {
   const value = Number(control.value);
@@ -28,6 +29,7 @@ export class ChannelComponent implements OnInit {
   itemIndex = 1;
   poolsIndex = 1;
   currentPool;
+  public relayInfo = [];
 
   dataOutput: DataOutput = {
     ledBig: undefined,
@@ -39,7 +41,8 @@ export class ChannelComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
-    private dataService: DataService) {
+    private dataService: DataService,
+    private dataBase: DatabaseService) {
   }
 
   ngOnInit() {
@@ -54,6 +57,15 @@ export class ChannelComponent implements OnInit {
       this.dataOutput.tempBig = data[2].value;
       this.dataOutput.tempGm = data[3].value;
       this.dataOutput.reserv = data[5].value;
+    });
+    this.dataBase.getRelayStatus().subscribe(data => {
+      this.relayInfo.push(data['R1-lightBig']);
+      this.relayInfo.push(data['R2-lightGM']);
+      this.relayInfo.push(data['R3-HeatBig']);
+      this.relayInfo.push(data['R4-HeatGM']);
+      this.relayInfo.push(data['R5-Water']);
+      
+      console.log(this.relayInfo)
     });
   }
 

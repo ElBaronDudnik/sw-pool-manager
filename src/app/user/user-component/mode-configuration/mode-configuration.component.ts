@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../../shared/api.service';
 import { DataService } from '../../../shared/data.service';
 import {FormControl} from '@angular/forms';
+import { DatabaseService } from 'src/app/shared/database.service';
+
 export class Modes {
   name: string;
   day: any;
@@ -11,15 +13,22 @@ export class Modes {
 
   constructor(day, hours, minutes, state) {
     this.day = day,
-      this.hours = hours,
-      this.minutes = minutes,
-      this.state = state;
+    this.hours = hours,
+    this.minutes = minutes,
+    this.state = state;
   }
 }
 
 
 const CUBE_256 = Math.pow(256, 3);
 const SQUARED_256 = Math.pow(256, 2);
+
+enum modes {
+  standart = 'стандартный',
+  vacation = 'отпуск',
+  intensive = 'интенсивный',
+  user = 'пользовательский',
+}
 
 @Component({
   selector: 'app-mode-configuration',
@@ -42,11 +51,31 @@ export class ModeConfigurationComponent implements OnInit {
   public timeDif = 3;
   modesData = [];
   constructor(private apiService: ApiService,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private dataBase: DatabaseService) {
   }
 
   ngOnInit() {
-    this.readTablesFromServer();
+    //this.readTablesFromServer();
+    this.dataBase.getModeTables().subscribe(data => this.filloutTables(data))
+  }
+
+  filloutTables(tables) {
+    this.modesData = [];
+    let i = 0;
+    for (let value in tables) {
+      const vals = new Modes(
+        tables[value][1].day, 
+        tables[value][1].hours, 
+        tables[value][1].minutes, 
+        tables[value][1].state);
+      const valuesArray = []; 
+      valuesArray.push(vals);
+      this.modesData.push({name: modes[value], value: valuesArray});
+      console.log(this.modesData);
+      //i++;
+    }
+
   }
 
   changeTime(newTime) {
