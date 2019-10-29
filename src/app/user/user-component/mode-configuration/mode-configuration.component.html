@@ -1,6 +1,6 @@
 <div class="container">
   <button mat-raised-button color="primary" (click)="sendAllTables()" class="sendAllTables" [disabled]="loading"> Отправить все таблицы</button>
-  <input type="number" [value] = "timeDif" (change) = "changeTime($event.target.value)" class="timePicker">
+
   <section class="loader-container">
     <div class="box" *ngIf = "loading">
       <div class="loader">Загрузка...</div>

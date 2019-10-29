@@ -9,20 +9,12 @@ import { MatButtonModule } from '@angular/material/button'
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import * as firebase from 'firebase';
+
 import { AppRoutingModule } from './app-rounting.module';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCLNnJItXWuXxJeqnr-aqwXeIhozOGza2Q',
-  authDomain: 'sw-pool-manager.firebaseapp.com',
-  databaseURL: 'https://sw-pool-manager.firebaseio.com',
-  projectId: 'sw-pool-manager',
-  storageBucket: '',
-  messagingSenderId: '170998076356',
-  appId: '1:170998076356:web:4fb3e1f9e5549387'
-};
-
-firebase.initializeApp(firebaseConfig);
 
 @NgModule({
   declarations: [
@@ -32,6 +24,8 @@ firebase.initializeApp(firebaseConfig);
   imports: [
     BrowserModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
