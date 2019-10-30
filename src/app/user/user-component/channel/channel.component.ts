@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { User } from 'firebase';
@@ -42,7 +42,8 @@ export class ChannelComponent implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private dataBase: DatabaseService) {
+    private dataBase: DatabaseService,
+    private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -58,14 +59,10 @@ export class ChannelComponent implements OnInit {
       this.dataOutput.tempGm = data[3].value;
       this.dataOutput.reserv = data[5].value;
     });
-    this.dataBase.getRelayStatus().subscribe(data => {
-      this.relayInfo.push(data['R1-lightBig']);
-      this.relayInfo.push(data['R2-lightGM']);
-      this.relayInfo.push(data['R3-HeatBig']);
-      this.relayInfo.push(data['R4-HeatGM']);
-      this.relayInfo.push(data['R5-Water']);
-      
-      console.log(this.relayInfo)
+    this.dataBase.getRelayStatus().on('value', (snapshot) => {
+      this.relayInfo = snapshot.val();
+      this.cdr.detectChanges();
+      console.log(this.relayInfo);
     });
   }
 

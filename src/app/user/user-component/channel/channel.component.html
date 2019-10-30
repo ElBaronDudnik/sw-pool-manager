@@ -6,9 +6,22 @@
         <mat-list-item>Email: {{ currentUser?.email }}</mat-list-item>
         <mat-list-item>Id бассейна: {{ currentUser?.pools[poolsIndex].poolId }}</mat-list-item>
         <mat-list-item>Название бассейна: {{ currentUser?.pools[poolsIndex].poolName }}</mat-list-item>
-        <mat-list-item>Освещение бассейна: {{ poolsIndex === 1 ? (relayInfo[0] | state) : (relayInfo[1] | state) }}</mat-list-item>
-        <mat-list-item>Нагреватель: {{ poolsIndex === 1 ? (relayInfo[2] | state) : (relayInfo[3] | state) }}</mat-list-item>
-        <mat-list-item>Система водоподготовки: {{ relayInfo[4] | state }}</mat-list-item>
+        <mat-list-item>
+          Освещение бассейна:
+          {{ poolsIndex === 1
+            ? (relayInfo && relayInfo['R1-lightBig'] | state)
+            : (relayInfo && relayInfo['R2-lightGM'] | state) }}
+        </mat-list-item>
+        <mat-list-item>
+          Нагреватель:
+          {{ poolsIndex === 1
+            ? (relayInfo && relayInfo['R3-heatBig'] | state)
+            : (relayInfo && relayInfo['R4-heatGM'] | state) }}
+        </mat-list-item>
+        <mat-list-item>
+          Система водоподготовки:
+          {{ relayInfo && relayInfo['R5-water'] | state }}
+        </mat-list-item>
       </mat-list>
       <img class = "pool_image" src="http://ipic.su/img/img7/tn/BIG_bass_Lutck.1550263763.jpg" alt="Pool's picture">
     </div>

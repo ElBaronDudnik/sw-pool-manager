@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ApiService } from '../../../shared/api.service';
 import { DataService } from '../../../shared/data.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {DatabaseService} from '../../../shared/database.service';
 
 export function temperatureValidator(control: FormControl) {
   const value = +control.value;
@@ -12,6 +13,13 @@ export function hysteresisValidator(control: FormControl) {
   return control.value > 0.1 && control.value < 3 ? null : {hysteresis: 'fail'};
 }
 
+export enum ModeNames {
+  'стандартный' = 101,
+  'отпуск' = 111,
+  'интенсивный' = 121,
+  'пользовательский' = 131
+}
+
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
@@ -19,29 +27,27 @@ export function hysteresisValidator(control: FormControl) {
 })
 export class ManageComponent implements OnInit {
   color = 'accent';
-  checkedBig = false;
   checkedGm = false;
   checkedRelay = false;
   disabled = false;
-  sensorsInfo = [];
-  managingInfo = [];
-  adminInfo = [];
-  temperatureBig: number;
-  temperatureGm: number;
+
   tempDesconeBig: string;
   tempDesconeGm: string;
-  hysteresisBig: number;
-  hysteresisGm: number;
-  heaterBig: boolean;
-  heaterGm: boolean;
-  waterTreatment: boolean;
+
   selectedValue;
   settingsBig: FormGroup;
   settingsGm: FormGroup;
+
+
+  alarms;
+  controls;
+  relay;
   modes = ['стандартный', 'отпуск', 'интенсивный', 'пользовательский'];
 
   constructor(private dataService: DataService,
-              private apiService: ApiService) {
+              private apiService: ApiService,
+              private databaseService: DatabaseService,
+              private cdr: ChangeDetectorRef) {
       this.settingsBig = new FormGroup({
         led: new FormControl(''),
         temperature: new FormControl('', [Validators.required, temperatureValidator]),
@@ -55,56 +61,44 @@ export class ManageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.getManaging().subscribe(data => {
-      this.managingInfo = data;
-      // this.checkedBig = !!this.managingInfo[0].value;
-      // this.checkedGm = !!this.managingInfo[1].value;
-      // this.checkedRelay = !!this.managingInfo[5].value;
-      console.log(data, this.checkedBig, this.checkedGm);
+    this.databaseService.getAlarms().on('value', snapshot => {
+      this.alarms = snapshot.val();
+      this.cdr.detectChanges();
     });
-    this.dataService.getSensors().subscribe(data =>  {
-      this.sensorsInfo = data;
-      console.log(data);
+
+    this.databaseService.getControls().on('value', snapshot => {
+      this.controls = snapshot.val();
+      console.log(this.controls);
+      this.selectedValue = ModeNames[this.controls['mode']];
+      this.cdr.detectChanges();
     });
-    this.dataService.getAdmin(2).subscribe(data => {
-      console.log(data, 'admin');
-      this.adminInfo = data;
-      this.logData();
-      this.decodeBits();
+
+    this.databaseService.getRelayStatus().on('value', snapshot => {
+      this.relay = snapshot.val();
+      console.log(this.relay);
+      console.log(this.relay && this.relay['R3-heatBig'])
+      this.cdr.detectChanges();
     });
-    this.apiService.temperatureTake().subscribe(data => {
-      console.log(data);
-      // @ts-ignore
-      this.tempDesconeBig = data.feeds[0].field7;
-      // @ts-ignore
-      this.tempDesconeGm = data.feeds[0].field8;
+
+    this.dataService.getInfo('859100').subscribe(temp => {
+      this.tempDesconeBig = temp[6].value;
+    });
+
+    this.dataService.getInfo('859100').subscribe(temp => {
+      this.tempDesconeBig = temp[6].value;
+    });
+
+    this.dataService.getInfo('859104').subscribe(temp => {
+      this.tempDesconeGm = temp[6].value;
     });
   }
 
-  decodeBits() {
-    const workingNumber = Math.floor(+this.adminInfo[3].values[1] / 2048).toString(2).split('');
-    console.log(workingNumber);
-    this.checkedBig = !!+workingNumber[0];
-    this.checkedGm = !!+workingNumber[1];
-    this.heaterBig = !!+workingNumber[2];
-    this.heaterGm = !!+workingNumber[3];
-    this.waterTreatment = !!+workingNumber[4];
-    this.checkedRelay = !!+workingNumber[5];
-    console.log(this.waterTreatment);
-  }
-
-  logData() {
-    this.temperatureBig = Math.floor(this.adminInfo[1].values[1] / 100) / 10;
-    this.temperatureGm =  Math.floor(this.adminInfo[2].values[1] / 100) / 10;
-    this.hysteresisBig = Math.floor(this.adminInfo[1].values[1] % 100) / 10;
-    this.hysteresisGm = Math.floor(this.adminInfo[2].values[1] % 100) / 10;
-    this.selectedValue = this.modes[Math.floor(this.adminInfo[0].values[1] / 10) - 10];
-  }
   changeLedBig() {
-    this.checkedBig = !this.checkedBig;
-    console.log(this.checkedBig);
-    const param = this.checkedBig ? 40 : 41;
-    this.apiService.sendCommand(param).subscribe(data => console.log(data));
+    this.relay['R1-lightBig'] = !this.relay['R1-lightBig'];
+
+    // const param = this.checkedBig ? 40 : 41;
+    // this.apiService.sendCommand(param).subscribe(data => console.log(data));
+    this.databaseService.sendAny('/relayStatus/R1-lightBig', this.relay['R1-lightBig']);
   }
   changeLedGm() {
     this.checkedGm = !this.checkedGm;

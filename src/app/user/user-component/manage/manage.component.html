@@ -1,33 +1,51 @@
 <div class="container">
+
     <form action="#" [formGroup]="settingsBig" >
+
       <h4>Управление большим бассейном</h4>
+
       <mat-card class="form-field-container">
+
         <mat-slide-toggle
           [color]="color"
-          [checked]="checkedBig"
+          [checked]="relay && relay['R1-lightBig']"
           [disabled]="disabled"
           (change) = "changeLedBig()"
           formControlName="led"
           >
           Освещение
         </mat-slide-toggle>
+
       </mat-card>
+
       <mat-card class="form-field-container">
 
           <p>Температура Дозирующей Станции: <span>{{ tempDesconeBig }}</span></p>
 
-          <p>Нагреватель:<span> {{ heaterBig ? 'Включен' : 'Выключен' }}</span></p>
+          <p>Нагреватель:<span> {{ relay && relay['R3-heatBig'] ? 'Включен' : 'Выключен' }}</span></p>
 
           <mat-form-field>
-            <input type="text" matInput placeholder="Температура" formControlName="temperature" [value] = "temperatureBig">
+            <input
+              type="text"
+              matInput
+              placeholder="Температура"
+              formControlName="temperature"
+              [value] = "controls && controls['Temp_MK']['tempBig']">
           </mat-form-field>
+
           <mat-error *ngIf="settingsBig.controls['temperature'].invalid && settingsBig.controls['temperature'].dirty">
              Температра должна быть задана в интервале от 1 до 50
           </mat-error>
 
           <mat-form-field>
-            <input type="text" matInput placeholder="Гистерезис" formControlName="hysteresis" [value] = "hysteresisBig">
+            <input
+              type="text"
+              matInput
+              placeholder="Гистерезис"
+              formControlName="hysteresis"
+              [value] = "controls && controls['Temp_MK']['gistBig']">
           </mat-form-field>
+
           <mat-error *ngIf="settingsBig.controls['hysteresis'].invalid && settingsBig.controls['hysteresis'].dirty">
             Гистерезис должен быть задан в интервале от 0.1 до 3.0
           </mat-error>
@@ -37,35 +55,52 @@
     </form>
 
   <form action="#" [formGroup]="settingsGm">
+
     <h4>Управление г/м бассейном</h4>
+
     <mat-card class="form-field-container">
+
       <mat-slide-toggle
         [color]="color"
-        [checked]="checkedGm"
+        [checked]="relay && relay['R2-lightGM']"
         [disabled]="disabled"
         (change) = "changeLedGm()"
         formControlName="led"
       >
         Освещение
       </mat-slide-toggle>
+
     </mat-card>
+
     <mat-card class="form-field-container">
 
       <p>Температура Дозирующей Станции: <span>{{ tempDesconeGm }}</span></p>
 
-      <p>Нагреватель: <span> {{ heaterGm ? 'Включен' : 'Выключен' }}</span></p>
+      <p>Нагреватель: <span> {{ relay && relay['R4-heatGM'] ? 'Включен' : 'Выключен' }}</span></p>
 
         <mat-form-field>
-          <input type="text" matInput placeholder="Температура" formControlName="temperature" [value] = "temperatureGm">
+          <input
+            type="text"
+            matInput
+            placeholder="Температура"
+            formControlName="temperature"
+            [value] = "controls && controls['Temp_MK']['tempGM']">
         </mat-form-field>
+
         <mat-error *ngIf="settingsGm.controls['temperature'].invalid && settingsGm.controls['temperature'].dirty">
           Температра должна быть задана в интервале от 1 до 50
         </mat-error>
 
 
         <mat-form-field>
-          <input type="text" matInput placeholder="Гистерезис" formControlName="hysteresis" [value] = "hysteresisGm">
+          <input
+            type="text"
+            matInput
+            placeholder="Гистерезис"
+            formControlName="hysteresis"
+            [value] = "controls && controls['Temp_MK']['gistGM']">
         </mat-form-field>
+
         <mat-error *ngIf="settingsGm.controls['hysteresis'].invalid && settingsGm.controls['hysteresis'].dirty">
           Гистерезис должен быть задан в интервале от 0.1 до 3.0
         </mat-error>
@@ -73,56 +108,75 @@
         <button mat-raised-button (click) = "changeTemperatureGm()">Заменить параметры регулирования</button>
 
     </mat-card>
+
   </form>
 
     <form action="#" class = "sensors">
+
       <h4>Сигналы тревоги</h4>
+
       <mat-card class="form-field-container">
+
         <table>
-        <tr class="sensor">
-          <td>Датчик затопления</td>
-          <td><button mat-mini-fab [color]="managingInfo[6]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
+
+          <tr class="sensor">
+            <td>Датчик затопления</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A1-flood']?'basic':'warn'"></button></td>
+          </tr>
+
           <tr class="sensor">
             <td>Герконовый датчик уровня в расходной емкости ph на два бассейна</td>
-            <td><button mat-mini-fab [color]="managingInfo[7]?.value == 0?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A2-level-PH']?'basic':'warn'"></button></td>
           </tr>
-        <tr class="sensor">
-          <td>Герконовый датчик уровня в расходной емкости Cl для бассейна</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[0]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
-        <tr class="sensor">
-          <td>Герконовый датчик уровня в расходной емкости активного кислорода для гидромассажного бассейна</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[1]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
-        <tr class="sensor">
-          <td>Сигнал аварии от автоматического 6-ти позиционного вентиля бассейна(Сухой контакт)</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[2]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
-        <tr class="sensor">
-          <td>Сигнал аварии от автоматического 6-ти позиционного вентиля г/м бассейна(Сухой контакт)</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[3]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
-        <tr class="sensor">
-          <td>Сигнал нижний/верхний датчик уровня воды емкости бассейна(Сухой контакт)</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[4]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
-        <tr class="sensor">
-          <td>Сигнал нижний/верхний датчик уровня воды емкости г/м бассейна(Сухой контакт)</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[5]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
-        <tr class="sensor">
-          <td>Сигнал тревоги резерв</td>
-          <td><button mat-mini-fab [color]="sensorsInfo[6]?.value == 0?'basic':'warn'"></button></td>
-        </tr>
+
+          <tr class="sensor">
+            <td>Герконовый датчик уровня в расходной емкости Cl для бассейна</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A3-level-Cl']?'basic':'warn'"></button></td>
+          </tr>
+
+          <tr class="sensor">
+            <td>Герконовый датчик уровня в расходной емкости активного кислорода для гидромассажного бассейна</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A4-level-K2']?'basic':'warn'"></button></td>
+          </tr>
+
+          <tr class="sensor">
+            <td>Сигнал аварии от автоматического 6-ти позиционного вентиля бассейна(Сухой контакт)</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A5-failure-6B']?'basic':'warn'"></button></td>
+          </tr>
+
+          <tr class="sensor">
+            <td>Сигнал аварии от автоматического 6-ти позиционного вентиля г/м бассейна(Сухой контакт)</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A6-failure-6G']?'basic':'warn'"></button></td>
+          </tr>
+
+          <tr class="sensor">
+            <td>Сигнал нижний/верхний датчик уровня воды емкости бассейна(Сухой контакт)</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A7-level-Big']?'basic':'warn'"></button></td>
+          </tr>
+
+          <tr class="sensor">
+            <td>Сигнал нижний/верхний датчик уровня воды емкости г/м бассейна(Сухой контакт)</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A8-level-Gm']?'basic':'warn'"></button></td>
+          </tr>
+
+          <tr class="sensor">
+            <td>Сигнал тревоги резерв</td>
+            <td><button mat-mini-fab [color]="alarms && alarms['A9-reserve-1']?'basic':'warn'"></button></td>
+          </tr>
+
         </table>
+
       </mat-card>
+
     </form>
 
   <form action="#">
+
     <h4>Система водоподготовки</h4>
+
     <mat-card class="form-field-container">
-      <p>Водоподготовка: <span>{{ waterTreatment ? 'Включена' : 'Выключена'}}</span></p>
+
+      <p>Водоподготовка: <span>{{ relay && relay['R5-Water'] ? 'Включена' : 'Выключена'}}</span></p>
       <h3>Настройки режима</h3>
       <mat-form-field>
         <mat-label>Mode</mat-label>
@@ -139,13 +193,15 @@
   <form action="">
     <h4>Включение резервного реле</h4>
     <mat-card class="form-field-container">
+
       <mat-slide-toggle
         [color]="color"
-        [checked]="checkedRelay"
+        [checked]="relay && relay['R6-reserve']"
         [disabled]="disabled"
         (change) = "changeRelay()">
         Включение резервного реле
       </mat-slide-toggle>
+
     </mat-card>
   </form>
 </div>

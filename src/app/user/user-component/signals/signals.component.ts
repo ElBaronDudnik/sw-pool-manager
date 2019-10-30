@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from 'firebase';
 import {ActivatedRoute} from '@angular/router';
 
@@ -11,7 +11,8 @@ export class SignalsComponent implements OnInit {
   currentUser: User;
   itemIndex = 1;
   poolsIndex = 1;
-  constructor(private route: ActivatedRoute,) { }
+  @Output() changeGraphNumber = new EventEmitter();
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));

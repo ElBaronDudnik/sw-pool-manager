@@ -1,43 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Injectable({providedIn: 'root'})
 export class DatabaseService {
     static url = 'https://sw-pool-manager.firebaseio.com';
 
     constructor(private http: HttpClient,
-                public db: AngularFirestore) {}
+                public db: AngularFireDatabase) {}
 
     getUserById(id) {
         return this.http.get(`${DatabaseService.url}/users/${id}.json`);
     }
 
     getAlarms() {
-        // return this.http.get(`${DatabaseService.url}/alarms.json`);
-        // return this.db.collection('/alarms').get();
+        return this.db.database.ref('/alarms');
     }
 
     getControls() {
-        return this.http.get(`${DatabaseService.url}/controls.json`)
+      return this.db.database.ref('/control');
     }
 
     getModeTables() {
-        return this.http.get(`${DatabaseService.url}/modeTables.json`);
+      return this.db.database.ref('/modeTables');
     }
 
     getRelayStatus() {
-        return this.http.get(`${DatabaseService.url}/relayStatus.json`);
+      return this.db.database.ref('/relayStatus');
     }
 
     sendTablesData(data) {
       console.log(data);
-      // return firebase.database().ref(`modeTables`).set({
-      //   standart: data[0].value,
-      //   vacation: data[1].value,
-      //   intensive: data[2].value,
-      //   user: data[3].value
-      // });
-      // return this.http.post(`${DatabaseService.url}/modeTables.json`, JSON.stringify(data));
+      return this.db.database.ref('/modeTables').set(data);
+    }
+
+    sendAny(path, data) {
+      return this.db.database.ref(path).set(data);
     }
 }
