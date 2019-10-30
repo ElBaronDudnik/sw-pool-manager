@@ -9,6 +9,7 @@ import { User } from '../../shared/user';
 })
 export class UserComponent implements OnInit {
   public currentUser: User;
+  loading = true;
   constructor(
     private authService: AuthService) { }
 

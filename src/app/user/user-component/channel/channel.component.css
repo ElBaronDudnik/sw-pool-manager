@@ -1,10 +1,6 @@
 mat-card{
     margin: 10px;
 }
-.channel-info{
-    grid-column-start: 2;
-    grid-row-start: 1;
-}
 .general-info{
   display: flex;
   justify-content: space-between;
@@ -28,4 +24,16 @@ mat-list-item{
 }
 mat-list{
   order: 2;
+}
+
+@media screen and (min-width: 600px) {
+  .channel-info{
+    grid-column-start: 2;
+    grid-row-start: 1;
+  }
+}
+@media screen and (max-width: 600px) {
+  .container{
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 }

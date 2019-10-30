@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { User } from 'firebase';
@@ -31,6 +31,8 @@ export class ChannelComponent implements OnInit {
   currentPool;
   public relayInfo = [];
 
+  loading = true;
+
   dataOutput: DataOutput = {
     ledBig: undefined,
     ledGm: undefined,
@@ -61,12 +63,13 @@ export class ChannelComponent implements OnInit {
     });
     this.dataBase.getRelayStatus().on('value', (snapshot) => {
       this.relayInfo = snapshot.val();
+      this.loading = false;
       this.cdr.detectChanges();
       console.log(this.relayInfo);
     });
   }
 
-  changeGraph(graphIndex) {
+  changeGraph([graphIndex]) {
      this.itemIndex = graphIndex + 1;
   }
 

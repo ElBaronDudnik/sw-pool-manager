@@ -30,11 +30,14 @@ export class DatabaseService {
     }
 
     sendTablesData(data) {
-      console.log(data);
       return this.db.database.ref('/modeTables').set(data);
     }
 
     sendAny(path, data) {
       return this.db.database.ref(path).set(data);
+    }
+
+    sendCommand(command) {
+      return this.db.database.ref('/command').set(command);
     }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-export const VERSION = '1.5';
+
+export const VERSION = new Date().toLocaleString();
 
 @Component({
   selector: 'app-root',

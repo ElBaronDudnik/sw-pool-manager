@@ -1,4 +1,5 @@
-<div class="container">
+<app-loader *ngIf = "loading"></app-loader>
+<div class="container" *ngIf = "!loading">
 
     <form action="#" [formGroup]="settingsBig" >
 
@@ -30,7 +31,7 @@
               matInput
               placeholder="Температура"
               formControlName="temperature"
-              [value] = "controls && controls['Temp_MK']['tempBig']">
+              [value] = "controls && controls['tempMK']['tempBig']">
           </mat-form-field>
 
           <mat-error *ngIf="settingsBig.controls['temperature'].invalid && settingsBig.controls['temperature'].dirty">
@@ -43,7 +44,7 @@
               matInput
               placeholder="Гистерезис"
               formControlName="hysteresis"
-              [value] = "controls && controls['Temp_MK']['gistBig']">
+              [value] = "controls && controls['tempMK']['gistBig']">
           </mat-form-field>
 
           <mat-error *ngIf="settingsBig.controls['hysteresis'].invalid && settingsBig.controls['hysteresis'].dirty">
@@ -84,7 +85,7 @@
             matInput
             placeholder="Температура"
             formControlName="temperature"
-            [value] = "controls && controls['Temp_MK']['tempGM']">
+            [value] = "controls && controls['tempMK']['tempGM']">
         </mat-form-field>
 
         <mat-error *ngIf="settingsGm.controls['temperature'].invalid && settingsGm.controls['temperature'].dirty">
@@ -98,7 +99,7 @@
             matInput
             placeholder="Гистерезис"
             formControlName="hysteresis"
-            [value] = "controls && controls['Temp_MK']['gistGM']">
+            [value] = "controls && controls['tempMK']['gistGM']">
         </mat-form-field>
 
         <mat-error *ngIf="settingsGm.controls['hysteresis'].invalid && settingsGm.controls['hysteresis'].dirty">

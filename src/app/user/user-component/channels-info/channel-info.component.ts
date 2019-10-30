@@ -17,6 +17,6 @@ export class ChannelInfoComponent implements OnInit{
         this.subscription.subscribe(data => this.channelInfo = data);
     }
     changeGraph(index) {
-        this.onchangeGraph.emit(index);
+        this.onchangeGraph.emit([index, this.currentPool]);
     }
 }

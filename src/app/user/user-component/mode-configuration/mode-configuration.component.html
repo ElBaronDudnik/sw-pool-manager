@@ -1,5 +1,13 @@
-<div class="container">
-  <button mat-raised-button color="primary" (click)="sendAllTables()" class="sendAllTables" [disabled]="loading"> Отправить все таблицы</button>
+<app-loader *ngIf = "loading"></app-loader>
+<div class="container" *ngIf = "!loading">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="sendAllTables()"
+    class="sendAllTables"
+    [disabled]="loading">
+    Записать таблицы расписаний
+  </button>
 
   <section class="loader-container">
     <div class="box" *ngIf = "loading">

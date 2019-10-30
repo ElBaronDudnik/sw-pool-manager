@@ -30,15 +30,11 @@ export class ModeValues {
   }
 }
 
-
-const CUBE_256 = Math.pow(256, 3);
-const SQUARED_256 = Math.pow(256, 2);
-
 enum ModesNames {
-  'стандартный',
-  'отпуск',
-  'интенсивный',
-  'пользовательский',
+   'стандартный'= 'standart',
+   'отпуск' = 'vacation',
+   'интенсивный' = 'intensive',
+   'пользовательский' = 'user',
 }
 
 @Component({
@@ -51,12 +47,12 @@ export class ModeConfigurationComponent implements OnInit {
   public progressValue = 0;
   public progressBufferValue = 75;
   public modesNames = ['стандартный', 'отпуск', 'интенсивный', 'пользовательский'];
-  public modesCommands = [10, 35, 60, 85];
+
   public daysControl: FormControl;
   public hoursControl: FormControl;
   public minutesControl: FormControl;
   public stateControl: FormControl;
-  public loading = false;
+  public loading = true;
 
   modesData = [];
   constructor(private apiService: ApiService,
@@ -67,7 +63,6 @@ export class ModeConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.dataBase.getModeTables().on('value', (res) => this.filloutTables(res.val()));
-    this.dataBase.getAlarms().on('value', (res) => console.log(res.val()));
   }
 
   createMode(modeConfig?) {
@@ -100,13 +95,25 @@ export class ModeConfigurationComponent implements OnInit {
           }));
         }
       }
-      this.modesData.push({name: ModesNames[key], value: valuesArray});
+
+      this.modesData.push({name: tables[key].name, value: valuesArray});
     }
+    this.loading = false;
+
+    if (!this.modesData.length) {
+      this.createClearTables();
+    }
+
     this.cdr.detectChanges();
   }
 
   sendAllTables(): void {
     this.dataBase.sendTablesData(this.modesData).then();
+    this.modesData.forEach(table => {
+      const rows = table.value.length;
+      this.dataBase.sendAny(`/control/numbLines/${ModesNames[table.name]}`, rows).then();
+    });
+    this.dataBase.sendCommand(7).then();
   }
 
   createFormControls() {
@@ -145,23 +152,26 @@ export class ModeConfigurationComponent implements OnInit {
     this.modesData = [];
     for (let i = 0; i < 4; i++) {
       const tableValue = Array.of(this.createMode());
-      this.modesData.push({name: this.modesNames[i], command: this.modesCommands[i], value: tableValue, rows: 0});
+      this.modesData.push({name: this.modesNames[i], value: tableValue});
     }
   }
 
   addRow(tableIndex, rowIndex) {
     if (this.modesData[tableIndex].value.length < 25) {
       this.modesData[tableIndex].value.splice(rowIndex + 1, 0, this.createMode());
+      this.cdr.detectChanges();
     }
   }
 
   deleteRow(tableIndex, rowIndex) {
     this.modesData[tableIndex].value = this.modesData[tableIndex].value.filter((row, index) => index !== rowIndex);
+    this.cdr.detectChanges();
   }
 
   clear(index) {
     const clearTable = Array.of(this.createMode());
     this.modesData[index].value = clearTable;
+    this.cdr.detectChanges();
   }
 
   changeData(el, parentIndex, childIndex, param) {
@@ -169,7 +179,6 @@ export class ModeConfigurationComponent implements OnInit {
     if (this.checkValues(param, inputValue)) {
       el.target.className = '';
       this.modesData[parentIndex].value[childIndex][param] = inputValue;
-      localStorage.setItem('tableData', JSON.stringify(this.modesData));
     } else {
       el.target.className = 'error';
     }

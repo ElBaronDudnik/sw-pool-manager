@@ -27,8 +27,6 @@ export enum ModeNames {
 })
 export class ManageComponent implements OnInit {
   color = 'accent';
-  checkedGm = false;
-  checkedRelay = false;
   disabled = false;
 
   tempDesconeBig: string;
@@ -38,7 +36,7 @@ export class ManageComponent implements OnInit {
   settingsBig: FormGroup;
   settingsGm: FormGroup;
 
-
+  loading = true;
   alarms;
   controls;
   relay;
@@ -68,20 +66,14 @@ export class ManageComponent implements OnInit {
 
     this.databaseService.getControls().on('value', snapshot => {
       this.controls = snapshot.val();
-      console.log(this.controls);
       this.selectedValue = ModeNames[this.controls['mode']];
       this.cdr.detectChanges();
+      this.loading = false;
     });
 
     this.databaseService.getRelayStatus().on('value', snapshot => {
       this.relay = snapshot.val();
-      console.log(this.relay);
-      console.log(this.relay && this.relay['R3-heatBig'])
       this.cdr.detectChanges();
-    });
-
-    this.dataService.getInfo('859100').subscribe(temp => {
-      this.tempDesconeBig = temp[6].value;
     });
 
     this.dataService.getInfo('859100').subscribe(temp => {
@@ -96,37 +88,41 @@ export class ManageComponent implements OnInit {
   changeLedBig() {
     this.relay['R1-lightBig'] = !this.relay['R1-lightBig'];
 
-    // const param = this.checkedBig ? 40 : 41;
-    // this.apiService.sendCommand(param).subscribe(data => console.log(data));
-    this.databaseService.sendAny('/relayStatus/R1-lightBig', this.relay['R1-lightBig']);
+    const command = this.relay['R1-lightBig'] ? 40 : 41;
+    this.databaseService.sendCommand(command).then();
   }
+
   changeLedGm() {
-    this.checkedGm = !this.checkedGm;
-    console.log(this.checkedGm);
-    const param = this.checkedGm ?  42 : 43;
-    this.apiService.sendCommand(param).subscribe(data => console.log(data));
+    this.relay['R2-lightGM'] = !this.relay['R2-lightGM'];
+
+    const param = this.relay['R2-lightGM'] ?  42 : 43;
+    this.databaseService.sendCommand(param).then();
   }
+
   changeRelay() {
-    this.checkedRelay = !this.checkedRelay;
-    console.log(this.checkedRelay);
-    const param = this.checkedRelay ? 44 : 45;
-    this.apiService.sendCommand(param).subscribe(data => console.log(data));
+    this.relay['R6-reserve'] = !this.relay['R6-reserve'];
+
+    const param = this.relay['R6-reserve'] ?  44 : 45;
+    this.databaseService.sendCommand(param).then();
   }
+
   changeMode(value) {
-    console.log(this.modes.indexOf(value));
-    const param = 100 + this.modes.indexOf(value) * 10;
-    this.apiService.sendCommand(param).subscribe();
+    this.databaseService.sendCommand(ModeNames[value]).then();
   }
+
   changeTemperatureBig() {
-    const temp = 24 * 65536 + this.settingsBig.value.temperature * 1000 + this.settingsBig.value.hysteresis * 10;
     if (this.settingsBig.valid) {
-      this.apiService.sendCommand(temp).subscribe();
+      this.databaseService.sendAny('/control/Temp_FB/tempBig', Number(this.settingsBig.value.temperature));
+      this.databaseService.sendAny('/control/Temp_FB/gistBig', Number(this.settingsBig.value.hysteresis));
+      this.databaseService.sendCommand(24).then();
     }
   }
+
   changeTemperatureGm() {
-    const temp = 26 * 65536 + this.settingsGm.value.temperature * 1000 + this.settingsGm.value.hysteresis * 10;
-    if (temp > 0) {
-      this.apiService.sendCommand(temp).subscribe();
+    if (this.settingsGm.valid) {
+      this.databaseService.sendAny('/control/Temp_FB/tempBig', Number(this.settingsGm.value.temperature));
+      this.databaseService.sendAny('/control/Temp_FB/gistBig', Number(this.settingsGm.value.hysteresis));
+      this.databaseService.sendCommand(24).then();
     }
   }
 }

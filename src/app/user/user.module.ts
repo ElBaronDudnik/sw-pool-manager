@@ -36,6 +36,7 @@ import {ContenteditableModule} from '@ng-stack/contenteditable';
 import { MatProgressBarModule } from '@angular/material';
 import { SignalsComponent } from './user-component/signals/signals.component';
 import { GraphOptionsComponent } from './user-component/graph-options/graph-options.component';
+import { LoaderComponent } from './user-component/loader/loader.component';
 
 @NgModule({
     imports: [
@@ -71,6 +72,7 @@ import { GraphOptionsComponent } from './user-component/graph-options/graph-opti
         ContentEditableDirective,
         SignalsComponent,
         GraphOptionsComponent,
+        LoaderComponent,
     ],
     providers: [
       AuthGuard,
