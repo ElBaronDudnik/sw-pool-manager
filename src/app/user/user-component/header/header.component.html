@@ -4,13 +4,13 @@
       <div class="burger"></div>
     </div>
     <nav >
-        <a routerLink = "/home/first" routerLinkActive="active">Большой бассейн</a>
-        <a routerLink = "/home/second" routerLinkActive="active">Гидромассажный бассейн</a>
-        <a routerLink = "/home/managing" routerLinkActive="active">Управление</a>
-        <a routerLink = "/home/configuration" routerLinkActive="active">Расписание режимов</a>
-        <a routerLink = "/home/signals" routerLinkActive="active">Графики сигналов Управления и Тревог</a>
+        <a routerLink = "/home/first" routerLinkActive="active" onClick = "closeMenu()">Большой бассейн</a>
+        <a routerLink = "/home/second" routerLinkActive="active" onClick = "closeMenu()">Гидромассажный бассейн</a>
+        <a routerLink = "/home/managing" routerLinkActive="active" onClick = "closeMenu()">Управление</a>
+        <a routerLink = "/home/configuration" routerLinkActive="active" onClick = "closeMenu()">Расписание режимов</a>
+        <a routerLink = "/home/signals" routerLinkActive="active" onClick = "closeMenu()">Графики сигналов Управления и Тревог</a>
     </nav>
     <h4>{{user.username}}</h4>
     <button mat-flat-button color="primary" (click) = "onLogOut()">Выйти</button>
-    <p class ="version">version: {{ version }}</p>
 </header>
+<p class ="version">version: {{ version }}</p>

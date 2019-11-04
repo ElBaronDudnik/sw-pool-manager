@@ -1,7 +1,7 @@
 .keys{
     background: #e6f1ff;
     padding: 10px 15px;
-    min-width: 300px;
+    min-width: 250px;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
 }
@@ -16,4 +16,15 @@ h4{
     font-weight: 300;
     font-size: 20px;
     margin: 0;
+}
+@media screen and (max-width: 480px) {
+  .keys {
+    min-width: 160px;
+  }
+  h4{
+    font-size: 16px;
+  }
+  .mat-list-item{
+    margin: 10px 0;
+  }
 }

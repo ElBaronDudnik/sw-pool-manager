@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { VERSION } from '../../../app.component';
 
 @Component({
@@ -20,5 +20,9 @@ export class HeaderComponent {
     onBurgerClicked(): void {
       this.active = !this.active;
       this.opened.emit();
+    }
+
+    closeMenu() {
+      this.active = false;
     }
 }

@@ -13,8 +13,7 @@ header h3, h4{
     font-weight: 400;
     color: darkslategrey
 }
-h3{
-}
+
 button{
     height: 40px;
     margin-left: 20px;
@@ -100,7 +99,10 @@ a.active{
    transition: top ease-out .2s, transform .2s ease-out .3s;
  }
 .version{
-  padding-left: 20px;
+  position: absolute;
+  padding-left: 10px;
+  margin: 0;
+  white-space: nowrap;
   font-size: 12px;
 }
 
@@ -112,6 +114,7 @@ a.active{
     left: -400px;
     transition: left 0.5s ease .3s;
     display: flex;
+    width: 100%;
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -121,5 +124,20 @@ a.active{
   .burger-menu.active + nav{
     left: 0;
     transition: left 0.5s ease;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .version {
+    font-size: 10px;
+  }
+  .burger::before {
+    top: 5px;
+  }
+  .burger::after {
+    top: 10px;
+  }
+  nav a{
+    font-size: 10px;
   }
 }
