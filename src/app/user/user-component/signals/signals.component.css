@@ -1,6 +1,6 @@
 .container{
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+}
+mat-card, app-graph-options{
+  width: calc(100% - 20px);
+  margin: 10px;
 }

@@ -1,12 +1,3 @@
-.container{
-  grid-template-columns: 50% 50%;
-  grid-template-rows: minmax(50px, max-content);
-  grid-gap: 20px;
-}
-.sendAllTables{
-  position: absolute;
-  left: 25px;
-}
 .timePicker{
   position: absolute;
   left: 225px;
@@ -59,13 +50,7 @@ th{
 .common-buttons {
   display: flex;
 }
-td button{
 
-}
-.loader-container {
-  grid-column-start: 1;
-  grid-column-end: 3;
-}
 .box{
   display: flex;
   align-items: center;
@@ -94,5 +79,21 @@ input{
 @media (max-width: 1280px) {
   .container {
     grid-template-columns: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  h3 {
+    font-size: 20px;
+  }
+  td, th{
+    width: 50px;
+    padding: 0 10px;
+  }
+  button{
+    margin-right: 0;
+  }
+  th {
+    font-size: 12px;
   }
 }

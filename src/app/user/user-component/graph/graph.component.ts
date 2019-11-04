@@ -13,22 +13,21 @@ export class GraphComponent implements OnChanges {
     constructor(private cdr: ChangeDetectorRef) {}
 
     ngOnChanges(): void {
-        console.log(this.results);
-        this.reDefineGraph();
+        // this.reDefineGraph();
+        this.defineSizes();
     }
 
-    reDefineGraph(w = 450, h = 260) {
-      console.log(w, h);
-      this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}&width=${w}&height=${h}`;
+    reDefineGraph(w = 450) {console.log(`https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}&width=${w}`);
+      this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}&width=${w}`;
       this.cdr.detectChanges();
     }
 
-    onResize(event) {
-      if (event.target.outerWidth < 600) {
-        console.log(event.target.outerWidth);
-        const width = event.target.outerWidth - 50;
-        const height = event.target.outerWidth / 1.5;
-        this.reDefineGraph(width, height);
+    defineSizes() {
+      if (window.outerWidth < 600) {
+        const width = window.outerWidth - 70;
+        // const height = Math.floor(width / 1.7);
+        this.reDefineGraph(width);
       }
+      this.reDefineGraph();
     }
 }
