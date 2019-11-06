@@ -4,6 +4,13 @@
   width: 100px;
   height: 50px
 }
+.table-container {
+  margin-top: 10px;
+  width: 50%;
+}
+.container {
+  padding-top: 90px;
+}
 h3{
   text-transform: uppercase;
   text-align: center;
@@ -63,6 +70,11 @@ th{
 .loader{
   padding-right: 20px;
 }
+.sendAllTables {
+  position: absolute;
+  top: 70px;
+  left: 20px;
+}
 
 input{
   width: 100%;
@@ -77,9 +89,7 @@ input{
 }
 
 @media (max-width: 1280px) {
-  .container {
-    grid-template-columns: 100%;
-  }
+
 }
 
 @media screen and (max-width: 600px) {
@@ -87,13 +97,16 @@ input{
     font-size: 20px;
   }
   td, th{
-    width: 50px;
-    padding: 0 10px;
+    max-width: 40px;
+    padding: 0 7px;
   }
   button{
     margin-right: 0;
   }
   th {
-    font-size: 12px;
+    font-size: 10px;
+  }
+  .table-container{
+    width: 100%;
   }
 }

@@ -6,3 +6,8 @@
 mat-card{
   margin: 10px 0;
 }
+@media screen and (max-width: 600px) {
+  .graph-container {
+    margin: 0 10px;
+  }
+}

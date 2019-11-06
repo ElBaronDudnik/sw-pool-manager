@@ -111,7 +111,7 @@ a.active{
     display: block;
   }
   nav{
-    left: -500px;
+    left: -1500px;
     transition: left 0.5s ease .3s;
     display: flex;
     width: 100%;
