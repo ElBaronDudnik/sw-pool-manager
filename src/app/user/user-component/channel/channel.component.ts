@@ -50,10 +50,11 @@ export class ChannelComponent implements OnInit {
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.poolsIndex = this.route.snapshot.data.poolNumber;
     // @ts-ignore
     this.currentPool = this.currentUser.pools[this.poolsIndex].poolId;
+    console.log(this.currentPool, this.poolsIndex)
     console.log(this.currentUser);
-    this.poolsIndex = this.route.snapshot.data.poolNumber;
     this.dataService.getManaging().subscribe(data => {
       this.dataOutput.ledBig = data[0].value;
       this.dataOutput.ledGm = data[1].value;

@@ -111,7 +111,7 @@ a.active{
     display: block;
   }
   nav{
-    left: -500px;
+    left: -1500px;
     transition: left 0.5s ease .3s;
     display: flex;
     width: 100%;
@@ -125,6 +125,12 @@ a.active{
     left: 0;
     transition: left 0.5s ease;
   }
+}
+.mat-basic{
+  background-color: green;
+}
+.readyController{
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 480px) {
