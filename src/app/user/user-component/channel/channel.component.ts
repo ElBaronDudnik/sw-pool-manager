@@ -71,6 +71,7 @@ export class ChannelComponent implements OnInit {
 
   changeGraph([graphIndex]) {
      this.itemIndex = graphIndex + 1;
+     this.cdr.detectChanges();
   }
 
 }

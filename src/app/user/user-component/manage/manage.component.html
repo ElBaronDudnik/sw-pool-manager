@@ -7,15 +7,18 @@
 
       <mat-card class="form-field-container">
 
-        <mat-slide-toggle
-          [color]="color"
-          [checked]="relay && relay['R1-lightBig']"
-          [disabled]="disabled"
-          (change) = "changeLedBig()"
-          formControlName="led"
-          >
-          Освещение
-        </mat-slide-toggle>
+        <div class="ios-handler">
+          <input
+            type="checkbox"
+            id="ios-handler"
+            [checked]="this.relay && this.relay['R1-lightBig']"
+            formControlName="led"
+            (change) = "changeLedBig()"
+            hidden>
+          <label for="ios-handler">
+          </label>
+          <span>Освещение</span>
+        </div>
 
       </mat-card>
 
@@ -61,15 +64,18 @@
 
     <mat-card class="form-field-container">
 
-      <mat-slide-toggle
-        [color]="color"
-        [checked]="relay && relay['R2-lightGM']"
-        [disabled]="disabled"
-        (change) = "changeLedGm()"
-        formControlName="led"
-      >
-        Освещение
-      </mat-slide-toggle>
+      <div class="ios-handler">
+        <input
+          type="checkbox"
+          id="ios-handler-2"
+          [checked]="relay && relay['R2-lightGM']"
+          formControlName="led"
+          (change) = "changeLedGm()"
+          hidden>
+        <label for="ios-handler-2">
+        </label>
+        <span>Освещение</span>
+      </div>
 
     </mat-card>
 
@@ -179,27 +185,31 @@
 
       <p>Водоподготовка: <span>{{ relay && relay['R5-Water'] ? 'Включена' : 'Выключена'}}</span></p>
       <h3>Настройки режима</h3>
-      <mat-form-field>
+
         <mat-label>Mode</mat-label>
-        <mat-select [(ngModel)]="selectedValue" name="mode">
-          <mat-option *ngFor="let mode of modes" [value]="mode">
-            {{mode}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+
+        <select [(ngModel)]="selectedValue" name="mode">
+          <option *ngFor="let mode of modes" [value]="mode">{{mode}}</option>
+        </select>
+
       <button mat-raised-button (click) = "changeMode(selectedValue)">Переключить режим</button>
     </mat-card>
 
     <h4>Включение резервного реле</h4>
     <mat-card class="form-field-container">
 
-      <mat-slide-toggle
-        [color]="color"
-        [checked]="relay && relay['R6-reserve']"
-        [disabled]="disabled"
-        (change) = "changeRelay()">
-        Включение резервного реле
-      </mat-slide-toggle>
+      <div class="ios-handler">
+        <input
+          type="checkbox"
+          id="ios-handler-3"
+          [checked]="relay && relay['R6-reserve']"
+          (change) = "changeRelay()"
+          hidden>
+        <label for="ios-handler-3">
+        </label>
+        <span>Включение резервного реле</span>
+      </div>
+
 
     </mat-card>
   </form>

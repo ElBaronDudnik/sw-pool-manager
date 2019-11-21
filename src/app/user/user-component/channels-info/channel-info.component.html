@@ -1,7 +1,10 @@
 <h4>Channel {{ currentPool }} info:</h4>
-<mat-list>
-    <mat-list-item *ngFor = "let item of channelInfo; let i = index" (click) = "changeGraph(i)">
-        <span class = "keys">{{ item.name }}</span>
-        <span class = "values">{{ item.value }}</span>
-    </mat-list-item>
-</mat-list>
+
+<nav class="list">
+  <ul>
+    <li *ngFor = "let item of channelInfo; let i = index" (click) = "changeGraph(i)">
+      <span class = "keys">{{ item.name }}</span>
+      <span class = "values">{{ item.value }}</span>
+    </li>
+  </ul>
+</nav>

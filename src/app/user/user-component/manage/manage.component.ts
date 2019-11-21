@@ -1,8 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import { ApiService } from '../../../shared/api.service';
 import { DataService } from '../../../shared/data.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {DatabaseService} from '../../../shared/database.service';
+import {from, Observable} from 'rxjs';
 
 export function temperatureValidator(control: FormControl) {
   const value = +control.value;
@@ -36,6 +37,9 @@ export class ManageComponent implements OnInit {
   settingsBig: FormGroup;
   settingsGm: FormGroup;
 
+  checkedLightBig;
+  checkedLigghtGm;
+
   loading = true;
   alarms;
   controls;
@@ -59,22 +63,25 @@ export class ManageComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.databaseService.getAlarms().on('value', snapshot => {
       this.alarms = snapshot.val();
       this.cdr.detectChanges();
+    });
+
+    this.databaseService.getRelayStatus().on('value', snapshot => {
+      this.relay = snapshot.val();
+      this.loading = false;
+      this.cdr.detectChanges();
+
     });
 
     this.databaseService.getControls().on('value', snapshot => {
       this.controls = snapshot.val();
       this.selectedValue = ModeNames[this.controls['mode']];
       this.cdr.detectChanges();
-      this.loading = false;
     });
 
-    this.databaseService.getRelayStatus().on('value', snapshot => {
-      this.relay = snapshot.val();
-      this.cdr.detectChanges();
-    });
 
     this.dataService.getInfo('859100').subscribe(temp => {
       this.tempDesconeBig = temp[6].value;
@@ -83,6 +90,10 @@ export class ManageComponent implements OnInit {
     this.dataService.getInfo('859104').subscribe(temp => {
       this.tempDesconeGm = temp[6].value;
     });
+  }
+
+  ngDoCheck() {
+    console.log(this.checkedLightBig);
   }
 
   changeLedBig() {

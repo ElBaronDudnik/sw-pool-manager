@@ -17,6 +17,20 @@ h4{
     font-size: 20px;
     margin: 0;
 }
+
+.list {
+  list-style: none;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+.list li {
+  display: flex;
+  margin: 10px 0;
+}
+
 @media screen and (max-width: 480px) {
   .keys {
     min-width: 175px;
