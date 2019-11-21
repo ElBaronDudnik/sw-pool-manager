@@ -14,8 +14,9 @@
             [checked]="this.relay && this.relay['R1-lightBig']"
             formControlName="led"
             (change) = "changeLedBig()"
+            class="switch"
             hidden>
-          <label for="ios-handler">
+          <label for="ios-handler" class="switch-label">
           </label>
           <span>Освещение</span>
         </div>
@@ -70,9 +71,10 @@
           id="ios-handler-2"
           [checked]="relay && relay['R2-lightGM']"
           formControlName="led"
+          class="switch"
           (change) = "changeLedGm()"
           hidden>
-        <label for="ios-handler-2">
+        <label for="ios-handler-2" class="switch-label">
         </label>
         <span>Освещение</span>
       </div>
@@ -188,7 +190,7 @@
 
         <mat-label>Mode</mat-label>
 
-        <select [(ngModel)]="selectedValue" name="mode">
+        <select [(ngModel)]="selectedValue" name="mode" (change)="changeMode(selectedValue)" >
           <option *ngFor="let mode of modes" [value]="mode">{{mode}}</option>
         </select>
 
@@ -202,10 +204,11 @@
         <input
           type="checkbox"
           id="ios-handler-3"
+          class="switch"
           [checked]="relay && relay['R6-reserve']"
           (change) = "changeRelay()"
           hidden>
-        <label for="ios-handler-3">
+        <label for="ios-handler-3" class="switch-label">
         </label>
         <span>Включение резервного реле</span>
       </div>
