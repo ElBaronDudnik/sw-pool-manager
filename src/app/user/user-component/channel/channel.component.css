@@ -37,11 +37,8 @@ mat-list{
 }
 
 @media screen and (max-width: 860px) {
-  mat-card{
+  mat-card, app-graph-options{
     width: calc(100% - 20px);
-  }
-  app-graph-options {
-    width: 100%;
   }
 }
 

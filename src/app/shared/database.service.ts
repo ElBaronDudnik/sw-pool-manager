@@ -21,6 +21,10 @@ export class DatabaseService {
       return this.db.database.ref('/control');
     }
 
+    setControlsNumLines(data) {
+      return this.db.database.ref('/control/numbLines').set(data);
+    }
+
     getModeTables() {
       return this.db.database.ref('/modeTables');
     }
@@ -39,5 +43,9 @@ export class DatabaseService {
 
     sendCommand(command) {
       return this.db.database.ref('/command').set(command);
+    }
+
+    getReadyStatus() {
+      return this.db.database.ref('/command');
     }
 }

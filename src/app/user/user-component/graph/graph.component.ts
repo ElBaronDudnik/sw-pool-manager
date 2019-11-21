@@ -20,12 +20,16 @@ export class GraphComponent implements OnChanges {
     }
 
     ngOnChanges(): void {
-        this.defineSizes();
+      console.log('changes');
+      this.defineSizes();
     }
 
     reDefineGraph() {
-      console.log(`https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}`);
-      this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}`;
+      if (this.width < 450) {
+        this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}&width=${this.width}&height=${this.height}`;
+      } else {
+        this.url = `https://api.thingspeak.com/channels/${this.currentPool}/charts/${this.index}?results=${this.results}`;
+      }
       this.cdr.detectChanges();
     }
 
