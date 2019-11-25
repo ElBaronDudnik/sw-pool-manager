@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef} from '@angular/core';
 import { VERSION } from '../../../app.component';
 import {DatabaseService} from '../../../shared/database.service';
 
@@ -15,11 +15,13 @@ export class HeaderComponent implements OnInit {
     @Output() logOut = new EventEmitter();
     @Output() opened = new EventEmitter<any>();
 
-    constructor(private databaseService: DatabaseService) {}
+    constructor(private databaseService: DatabaseService,
+                private cdr: ChangeDetectorRef) {}
 
     ngOnInit() {
       this.databaseService.getReadyStatus().on('value', snapshot => {
         this.isDeviceReady = !!snapshot.val();
+        this.cdr.detectChanges();
       });
     }
 
@@ -34,5 +36,9 @@ export class HeaderComponent implements OnInit {
 
     closeMenu() {
       this.active = false;
+    }
+
+    ngDestroy() {
+      console.log('destroy');
     }
 }

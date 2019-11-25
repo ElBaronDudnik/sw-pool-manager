@@ -185,7 +185,7 @@
 
     <mat-card class="form-field-container">
 
-      <p>Водоподготовка: <span>{{ relay && relay['R5-Water'] ? 'Включена' : 'Выключена'}}</span></p>
+      <p>водоподготовка: <span>{{ relay && relay['R5-Water'] ? 'Включена' : 'Выключена'}}</span></p>
       <h3>Настройки режима</h3>
 
         <mat-label>Mode</mat-label>
@@ -193,8 +193,7 @@
         <select [(ngModel)]="selectedValue" name="mode" (change)="changeMode(selectedValue)" >
           <option *ngFor="let mode of modes" [value]="mode">{{mode}}</option>
         </select>
-
-      <button mat-raised-button (click) = "changeMode(selectedValue)">Переключить режим</button>
+      
     </mat-card>
 
     <h4>Включение резервного реле</h4>

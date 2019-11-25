@@ -8,9 +8,9 @@ export class StatePipe implements PipeTransform {
     if (state !== undefined) {
       if (typeof state === 'string') {
         state = parseInt(state, 10);
-        return state === 1 ? 'Включено' : 'Выключено';
+        return state === 1 ? 'Включен' : 'Выключен';
       } else {
-        return state ? 'Включено' : 'Выключено';
+        return state ? 'Включен' : 'Выключен';
       }
     }
     return '';

@@ -15,10 +15,10 @@ export function hysteresisValidator(control: FormControl) {
 }
 
 export enum ModeNames {
-  'стандартный' = 101,
-  'отпуск' = 111,
-  'интенсивный' = 121,
-  'пользовательский' = 131
+  'стандартный' = 10,
+  'отпуск' = 11,
+  'интенсивный' = 12,
+  'пользовательский' = 13
 }
 
 @Component({
@@ -78,7 +78,7 @@ export class ManageComponent implements OnInit {
 
     this.databaseService.getControls().on('value', snapshot => {
       this.controls = snapshot.val();
-      this.selectedValue = ModeNames[this.controls['mode']];
+      this.selectedValue = ModeNames[Math.floor(this.controls['mode']/10)];
       this.cdr.detectChanges();
     });
 
@@ -90,10 +90,6 @@ export class ManageComponent implements OnInit {
     this.dataService.getInfo('859104').subscribe(temp => {
       this.tempDesconeGm = temp[6].value;
     });
-  }
-
-  ngDoCheck() {
-    console.log(this.checkedLightBig);
   }
 
   changeLedBig() {
@@ -118,7 +114,7 @@ export class ManageComponent implements OnInit {
   }
 
   changeMode(value) {
-    this.databaseService.sendCommand(ModeNames[value]).then();
+    this.databaseService.sendCommand(Number(ModeNames[value]) * 10 + 1).then();
   }
 
   changeTemperatureBig() {

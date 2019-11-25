@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 
-export const VERSION = '1.8(21/11/2019)';
+export const VERSION = '1.9(25/11/2019)';
 
 @Component({
   selector: 'app-root',
