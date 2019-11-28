@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from 'firebase';
 import {ActivatedRoute} from '@angular/router';
+import {DatabaseService} from '../../../shared/database.service';
 
 @Component({
   selector: 'app-signals',
@@ -12,9 +13,11 @@ export class SignalsComponent implements OnInit {
   itemIndexFirst = 1;
   itemIndexSecond = 1;
   poolsIndex = 1;
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+              private dataBase: DatabaseService) { }
 
   ngOnInit() {
+    this.dataBase.sendCommand(77).then();
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.poolsIndex = this.route.snapshot.data.poolNumber;
     console.log(this.poolsIndex);

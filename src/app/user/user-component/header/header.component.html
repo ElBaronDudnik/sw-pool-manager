@@ -13,7 +13,7 @@
         <a routerLink = "/home/configuration" routerLinkActive="active" (click) = "closeMenu()">Расписание режимов</a>
         <a routerLink = "/home/signals" routerLinkActive="active" (click) = "closeMenu()">Графики сигналов Управления и Тревог</a>
     </nav>
-    <button mat-mini-fab [color]="isDeviceReady?'warn':'basic'" class="readyController"></button>
+    <button mat-mini-fab [color]="isDeviceReady?'warn':'basic'" class="readyController">{{ isDeviceReady ? 'Выкл' : 'Вкл' }}</button>
     <h4>{{user.username}}</h4>
     <button mat-flat-button color="primary" (click) = "onLogOut()">Выйти</button>
 </header>

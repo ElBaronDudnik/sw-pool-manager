@@ -59,6 +59,10 @@ label.switch-label {
   background-color: #9c9c9c;
   cursor: pointer;
 }
+label.switch-label.disabled, input.switch:checked+label.disabled {
+  background: lightgrey;
+  pointer-events:none;
+}
 label.switch-label:after {
   content: "";
   position: absolute;
@@ -72,6 +76,9 @@ label.switch-label:after {
   transition: all 0.5s ease;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
   cursor: pointer;
+}
+label.switch-label.disabled:after, input.switch:checked+label.disabled:after {
+  background: darkgrey;
 }
 
 input.switch:checked+label {

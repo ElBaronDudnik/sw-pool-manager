@@ -16,7 +16,7 @@
             (change) = "changeLedBig()"
             class="switch"
             hidden>
-          <label for="ios-handler" class="switch-label">
+          <label for="ios-handler" class="switch-label" [class.disabled] = "deviceDisable">
           </label>
           <span>Освещение</span>
         </div>
@@ -55,7 +55,7 @@
             Гистерезис должен быть задан в интервале от 0.1 до 3.0
           </mat-error>
 
-          <button mat-raised-button (click) = "changeTemperatureBig()">Заменить параметры регулирования</button>
+          <button mat-raised-button (click) = "changeTemperatureBig()" [disabled]="deviceDisable">Заменить параметры регулирования</button>
       </mat-card>
     </form>
 
@@ -74,7 +74,7 @@
           class="switch"
           (change) = "changeLedGm()"
           hidden>
-        <label for="ios-handler-2" class="switch-label">
+        <label for="ios-handler-2" class="switch-label" [class.disabled] = "deviceDisable">
         </label>
         <span>Освещение</span>
       </div>
@@ -114,7 +114,7 @@
           Гистерезис должен быть задан в интервале от 0.1 до 3.0
         </mat-error>
 
-        <button mat-raised-button (click) = "changeTemperatureGm()">Заменить параметры регулирования</button>
+        <button mat-raised-button (click) = "changeTemperatureGm()"[disabled]="deviceDisable" >Заменить параметры регулирования</button>
 
     </mat-card>
 
@@ -190,10 +190,10 @@
 
         <mat-label>Mode</mat-label>
 
-        <select [(ngModel)]="selectedValue" name="mode" (change)="changeMode(selectedValue)" >
+        <select [(ngModel)]="selectedValue" name="mode" (change)="changeMode(selectedValue)" [disabled]="deviceDisable" >
           <option *ngFor="let mode of modes" [value]="mode">{{mode}}</option>
         </select>
-      
+
     </mat-card>
 
     <h4>Включение резервного реле</h4>
@@ -207,7 +207,7 @@
           [checked]="relay && relay['R6-reserve']"
           (change) = "changeRelay()"
           hidden>
-        <label for="ios-handler-3" class="switch-label">
+        <label for="ios-handler-3" class="switch-label" [class.disabled] = "deviceDisable">
         </label>
         <span>Включение резервного реле</span>
       </div>

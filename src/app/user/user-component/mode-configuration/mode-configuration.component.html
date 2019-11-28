@@ -4,23 +4,10 @@
   color="primary"
   (click)="sendAllTables()"
   class="sendAllTables"
-  [disabled]="loading">
+  [disabled]="deviceDisable">
   Записать таблицы расписаний
 </button>
 <div class="container" *ngIf = "!loading">
-
-<!--  <section class="loader-container">-->
-<!--    <div class="box" *ngIf = "loading">-->
-<!--      <div class="loader">Загрузка...</div>-->
-<!--      <mat-progress-bar-->
-<!--        class="loader-progressbar"-->
-<!--        color="accent"-->
-<!--        [mode]="progressMode"-->
-<!--        [value]="progressValue"-->
-<!--        [bufferValue]="progressBufferValue">-->
-<!--      </mat-progress-bar>-->
-<!--    </div>-->
-<!--  </section>-->
 
   <div class="table-container" *ngFor = "let data of modesData; let i = index">
     <h3>{{data.name}}</h3>

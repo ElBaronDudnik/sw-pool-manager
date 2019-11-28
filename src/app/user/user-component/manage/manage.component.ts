@@ -28,7 +28,6 @@ export enum ModeNames {
 })
 export class ManageComponent implements OnInit {
   color = 'accent';
-  disabled = false;
 
   tempDesconeBig: string;
   tempDesconeGm: string;
@@ -37,8 +36,7 @@ export class ManageComponent implements OnInit {
   settingsBig: FormGroup;
   settingsGm: FormGroup;
 
-  checkedLightBig;
-  checkedLigghtGm;
+  deviceDisable;
 
   loading = true;
   alarms;
@@ -64,6 +62,8 @@ export class ManageComponent implements OnInit {
 
   ngOnInit() {
 
+    this.databaseService.sendCommand(77).then();
+
     this.databaseService.getAlarms().on('value', snapshot => {
       this.alarms = snapshot.val();
       this.cdr.detectChanges();
@@ -74,6 +74,11 @@ export class ManageComponent implements OnInit {
       this.loading = false;
       this.cdr.detectChanges();
 
+    });
+
+    this.databaseService.getReadyStatus().on('value', snapshot => {
+      this.deviceDisable = !!snapshot.val();
+      console.log(this.deviceDisable);
     });
 
     this.databaseService.getControls().on('value', snapshot => {
@@ -96,6 +101,7 @@ export class ManageComponent implements OnInit {
     this.relay['R1-lightBig'] = !this.relay['R1-lightBig'];
 
     const command = this.relay['R1-lightBig'] ? 40 : 41;
+    console.log(command);
     this.databaseService.sendCommand(command).then();
   }
 
@@ -129,7 +135,7 @@ export class ManageComponent implements OnInit {
     if (this.settingsGm.valid) {
       this.databaseService.sendAny('/control/Temp_FB/tempBig', Number(this.settingsGm.value.temperature));
       this.databaseService.sendAny('/control/Temp_FB/gistBig', Number(this.settingsGm.value.hysteresis));
-      this.databaseService.sendCommand(24).then();
+      this.databaseService.sendCommand(26).then();
     }
   }
 }

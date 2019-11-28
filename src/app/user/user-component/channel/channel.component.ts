@@ -49,6 +49,7 @@ export class ChannelComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataBase.sendCommand(77).then();
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.poolsIndex = this.route.snapshot.data.poolNumber;
     // @ts-ignore

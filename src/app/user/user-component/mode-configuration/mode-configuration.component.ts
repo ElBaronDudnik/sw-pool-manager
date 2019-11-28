@@ -43,9 +43,7 @@ enum ModesNames {
   styleUrls: ['./mode-configuration.component.css']
 })
 export class ModeConfigurationComponent implements OnInit {
-  public progressMode = 'determinate';
-  public progressValue = 0;
-  public progressBufferValue = 75;
+  public deviceDisable;
   public modesNames = ['стандартный', 'отпуск', 'интенсивный', 'пользовательский'];
 
   public daysControl: FormControl;
@@ -62,7 +60,12 @@ export class ModeConfigurationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataBase.sendCommand(77).then();
     this.dataBase.getModeTables().on('value', (res) => this.filloutTables(res.val()));
+    this.dataBase.getReadyStatus().on('value', snapshot => {
+      this.deviceDisable = !!snapshot.val();
+      console.log(this.deviceDisable);
+    });
   }
 
   createMode(modeConfig?) {
