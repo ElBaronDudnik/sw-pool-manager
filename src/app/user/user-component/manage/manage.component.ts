@@ -48,11 +48,13 @@ export class ManageComponent implements OnInit {
               private apiService: ApiService,
               private databaseService: DatabaseService,
               private cdr: ChangeDetectorRef) {
+
       this.settingsBig = new FormGroup({
         led: new FormControl(''),
         temperature: new FormControl('', [Validators.required, temperatureValidator]),
         hysteresis: new FormControl('', [Validators.required, hysteresisValidator]),
       });
+
       this.settingsGm = new FormGroup({
         led: new FormControl(''),
         temperature: new FormControl('', [Validators.required, temperatureValidator]),
@@ -78,22 +80,25 @@ export class ManageComponent implements OnInit {
 
     this.databaseService.getReadyStatus().on('value', snapshot => {
       this.deviceDisable = !!snapshot.val();
+      this.cdr.detectChanges();
       console.log(this.deviceDisable);
     });
 
     this.databaseService.getControls().on('value', snapshot => {
       this.controls = snapshot.val();
-      this.selectedValue = ModeNames[Math.floor(this.controls['mode']/10)];
+      this.selectedValue = ModeNames[Math.floor(this.controls['mode'] / 10)];
       this.cdr.detectChanges();
     });
 
 
     this.dataService.getInfo('859100').subscribe(temp => {
       this.tempDesconeBig = temp[6].value;
+      this.databaseService.sendAny('/descons/temp-descon1', Number(this.tempDesconeBig));
     });
 
     this.dataService.getInfo('859104').subscribe(temp => {
       this.tempDesconeGm = temp[6].value;
+      this.databaseService.sendAny('/descons/temp-descon2', Number(this.tempDesconeGm));
     });
   }
 
@@ -133,8 +138,8 @@ export class ManageComponent implements OnInit {
 
   changeTemperatureGm() {
     if (this.settingsGm.valid) {
-      this.databaseService.sendAny('/control/Temp_FB/tempBig', Number(this.settingsGm.value.temperature));
-      this.databaseService.sendAny('/control/Temp_FB/gistBig', Number(this.settingsGm.value.hysteresis));
+      this.databaseService.sendAny('/control/Temp_FB/tempGM', Number(this.settingsGm.value.temperature));
+      this.databaseService.sendAny('/control/Temp_FB/gistGM', Number(this.settingsGm.value.hysteresis));
       this.databaseService.sendCommand(26).then();
     }
   }

@@ -65,6 +65,7 @@ export class ModeConfigurationComponent implements OnInit {
     this.dataBase.getReadyStatus().on('value', snapshot => {
       this.deviceDisable = !!snapshot.val();
       console.log(this.deviceDisable);
+      this.cdr.detectChanges();
     });
   }
 
@@ -114,6 +115,7 @@ export class ModeConfigurationComponent implements OnInit {
     this.dataBase.sendTablesData(this.modesData).then();
     this.modesData.forEach(table => {
       const rows = table.value.length;
+      this.dataBase.sendAny(`/control/CheckSumm/CS_${ModesNames[table.name]}_FB`, this.calcControlSum(table.value)).then();
       this.dataBase.sendAny(`/control/numbLines/${ModesNames[table.name]}`, rows).then();
     });
     this.dataBase.sendCommand(7).then();
@@ -185,6 +187,14 @@ export class ModeConfigurationComponent implements OnInit {
     } else {
       el.target.className = 'error';
     }
+  }
+
+  calcControlSum(tableData) {
+    let controlSum = 0;
+    tableData.forEach((data, rowIndex) => {
+      controlSum += (data.day + data.state + data.hours + data.minutes) * (rowIndex + 1);
+    });
+    return controlSum;
   }
 
   removeBlur(event) {
