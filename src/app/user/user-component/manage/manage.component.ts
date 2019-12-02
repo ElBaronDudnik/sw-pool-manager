@@ -67,7 +67,7 @@ export class ManageComponent implements OnInit {
     this.databaseService.sendCommand(77).then();
 
     this.databaseService.getAlarms().on('value', snapshot => {
-      this.alarms = snapshot.val();
+      this.alarms = snapshot.val().split('').map(alarm => Number(alarm));
       this.cdr.detectChanges();
     });
 

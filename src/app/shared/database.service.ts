@@ -14,7 +14,7 @@ export class DatabaseService {
     }
 
     getAlarms() {
-        return this.db.database.ref('/alarms');
+        return this.db.database.ref('/status-all-alarms');
     }
 
     getControls() {

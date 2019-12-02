@@ -130,47 +130,47 @@
 
           <tr class="sensor">
             <td>Датчик затопления</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A1-flood']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[0]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Герконовый датчик уровня в расходной емкости ph на два бассейна</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A2-level-PH']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[1]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Герконовый датчик уровня в расходной емкости Cl для бассейна</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A3-level-Cl']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[2]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Герконовый датчик уровня в расходной емкости активного кислорода для гидромассажного бассейна</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A4-level-K2']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[3]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Сигнал аварии от автоматического 6-ти позиционного вентиля бассейна(Сухой контакт)</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A5-failure-6B']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[4]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Сигнал аварии от автоматического 6-ти позиционного вентиля г/м бассейна(Сухой контакт)</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A6-failure-6G']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[5]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Сигнал нижний/верхний датчик уровня воды емкости бассейна(Сухой контакт)</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A7-level-Big']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[6]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Сигнал нижний/верхний датчик уровня воды емкости г/м бассейна(Сухой контакт)</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A8-level-Gm']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[7]?'basic':'warn'"></button></td>
           </tr>
 
           <tr class="sensor">
             <td>Сигнал тревоги резерв</td>
-            <td><button mat-mini-fab [color]="alarms && alarms['A9-reserve-1']?'basic':'warn'"></button></td>
+            <td><button mat-mini-fab [color]="alarms && alarms[8]?'basic':'warn'"></button></td>
           </tr>
 
         </table>
