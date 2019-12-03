@@ -21,12 +21,14 @@ export class ModeValues {
   hours: string | number;
   minutes: string | number;
   state: string | number;
+  total: number;
 
   constructor(props) {
     this.day = props.day,
     this.hours = props.hours,
     this.minutes = props.minutes,
     this.state = props.state;
+    this.total = props.total;
   }
 }
 
@@ -64,7 +66,6 @@ export class ModeConfigurationComponent implements OnInit {
     this.dataBase.getModeTables().on('value', (res) => this.filloutTables(res.val()));
     this.dataBase.getReadyStatus().on('value', snapshot => {
       this.deviceDisable = !!snapshot.val();
-      console.log(this.deviceDisable);
       this.cdr.detectChanges();
     });
   }
@@ -75,6 +76,7 @@ export class ModeConfigurationComponent implements OnInit {
       hours: null,
       minutes: null,
       state: null,
+      total: null,
     }, modeConfig);
 
     return modeConfig;
@@ -95,13 +97,14 @@ export class ModeConfigurationComponent implements OnInit {
             day: item.day,
             hours: item.hours,
             minutes: item.minutes,
-            state: item.state
+            state: item.state,
           }));
         }
       }
 
       this.modesData.push({name: tables[key].name, value: valuesArray});
     }
+    console.log(this.modesData);
     this.loading = false;
 
     if (!this.modesData.length) {
@@ -112,6 +115,8 @@ export class ModeConfigurationComponent implements OnInit {
   }
 
   sendAllTables(): void {
+    this.calcTotal();
+    console.log(this.modesData);
     this.dataBase.sendTablesData(this.modesData).then();
     this.modesData.forEach(table => {
       const rows = table.value.length;
@@ -187,6 +192,17 @@ export class ModeConfigurationComponent implements OnInit {
     } else {
       el.target.className = 'error';
     }
+  }
+
+  calcTotal() {
+    this.modesData.forEach(table => {
+      table.value.forEach(row => {
+        row.total = row.day * Math.pow(10, 5) +
+          row.hours * Math.pow(10, 3) +
+          row.minutes * 10 +
+          row.state;
+      });
+    });
   }
 
   calcControlSum(tableData) {
