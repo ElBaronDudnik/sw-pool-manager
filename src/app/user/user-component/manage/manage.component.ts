@@ -7,6 +7,7 @@ import {from, Observable} from 'rxjs';
 
 export function temperatureValidator(control: FormControl) {
   const value = +control.value;
+  console.log(value);
   return value > 1 && value < 50 ? null : {temperature: 'fail'};
 }
 export function hysteresisValidator(control: FormControl) {
@@ -44,23 +45,17 @@ export class ManageComponent implements OnInit {
   relay;
   modes = ['стандартный', 'отпуск', 'интенсивный', 'пользовательский'];
 
+  tempBig;
+  tempGM;
+  hystBig;
+  hystGM;
+  ledBig;
+  ledGM;
+
   constructor(private dataService: DataService,
               private apiService: ApiService,
               private databaseService: DatabaseService,
-              private cdr: ChangeDetectorRef) {
-
-      this.settingsBig = new FormGroup({
-        led: new FormControl(''),
-        temperature: new FormControl('', [Validators.required, temperatureValidator]),
-        hysteresis: new FormControl('', [Validators.required, hysteresisValidator]),
-      });
-
-      this.settingsGm = new FormGroup({
-        led: new FormControl(''),
-        temperature: new FormControl('', [Validators.required, temperatureValidator]),
-        hysteresis: new FormControl('', [Validators.required, hysteresisValidator]),
-      });
-  }
+              private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
 
@@ -86,10 +81,18 @@ export class ManageComponent implements OnInit {
 
     this.databaseService.getControls().on('value', snapshot => {
       this.controls = snapshot.val();
+
+      this.tempBig = this.controls['tempMK']['tempBig'];
+      this.tempGM = this.controls['tempMK']['tempGM'];
+      this.hystBig = this.controls['tempMK']['gistBig'];
+      this.hystGM = this.controls['tempMK']['gistGM'];
+      this.ledBig = this.controls['led']['R1-lightBig'];
+      this.ledGM = this.controls['led']['R2-lightGM'];
+
+      this.filloutForms();
       this.selectedValue = ModeNames[Math.floor(this.controls['mode'] / 10)];
       this.cdr.detectChanges();
     });
-
 
     this.dataService.getInfo('859100').subscribe(temp => {
       this.tempDesconeBig = temp[6].value;
@@ -102,18 +105,32 @@ export class ManageComponent implements OnInit {
     });
   }
 
-  changeLedBig() {
-    this.relay['R1-lightBig'] = !this.relay['R1-lightBig'];
+  filloutForms() {
+    this.settingsBig = new FormGroup({
+      led: new FormControl(this.ledBig),
+      temperature: new FormControl(this.tempBig, [temperatureValidator]),
+      hysteresis: new FormControl(this.hystBig, [hysteresisValidator]),
+    });
 
-    const command = this.relay['R1-lightBig'] ? 40 : 41;
+    this.settingsGm = new FormGroup({
+      led: new FormControl(this.ledGM),
+      temperature: new FormControl(this.tempGM, [temperatureValidator]),
+      hysteresis: new FormControl(this.hystGM, [hysteresisValidator]),
+    });
+  }
+
+  changeLedBig() {
+    this.ledBig = !this.ledBig;
+
+    const command = this.ledBig ? 40 : 41;
     console.log(command);
     this.databaseService.sendCommand(command).then();
   }
 
   changeLedGm() {
-    this.relay['R2-lightGM'] = !this.relay['R2-lightGM'];
+    this.ledGM = !this.ledGM;
 
-    const param = this.relay['R2-lightGM'] ?  42 : 43;
+    const param = this.ledGM ?  42 : 43;
     this.databaseService.sendCommand(param).then();
   }
 
@@ -129,7 +146,9 @@ export class ManageComponent implements OnInit {
   }
 
   changeTemperatureBig() {
+    console.log(this.settingsBig.value)
     if (this.settingsBig.valid) {
+      console.log(this.settingsBig.value.temperature)
       this.databaseService.sendAny('/control/Temp_FB/tempBig', Number(this.settingsBig.value.temperature));
       this.databaseService.sendAny('/control/Temp_FB/gistBig', Number(this.settingsBig.value.hysteresis));
       this.databaseService.sendCommand(24).then();

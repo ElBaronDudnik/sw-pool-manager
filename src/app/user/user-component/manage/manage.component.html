@@ -11,7 +11,7 @@
           <input
             type="checkbox"
             id="ios-handler"
-            [checked]="this.relay && this.relay['R1-lightBig']"
+            [checked]="this.ledBig"
             formControlName="led"
             (change) = "changeLedBig()"
             class="switch"
@@ -35,7 +35,7 @@
               matInput
               placeholder="Температура"
               formControlName="temperature"
-              [value] = "controls && controls['tempMK']['tempBig']">
+              [value] = "tempBig">
           </mat-form-field>
 
           <mat-error *ngIf="settingsBig.controls['temperature'].invalid && settingsBig.controls['temperature'].dirty">
@@ -48,7 +48,7 @@
               matInput
               placeholder="Гистерезис"
               formControlName="hysteresis"
-              [value] = "controls && controls['tempMK']['gistBig']">
+              [value] = "hystBig">
           </mat-form-field>
 
           <mat-error *ngIf="settingsBig.controls['hysteresis'].invalid && settingsBig.controls['hysteresis'].dirty">
@@ -69,7 +69,7 @@
         <input
           type="checkbox"
           id="ios-handler-2"
-          [checked]="relay && relay['R2-lightGM']"
+          [checked]="ledGM"
           formControlName="led"
           class="switch"
           (change) = "changeLedGm()"
@@ -93,7 +93,7 @@
             matInput
             placeholder="Температура"
             formControlName="temperature"
-            [value] = "controls && controls['tempMK']['tempGM']">
+            [value] = "tempGM">
         </mat-form-field>
 
         <mat-error *ngIf="settingsGm.controls['temperature'].invalid && settingsGm.controls['temperature'].dirty">
@@ -107,7 +107,7 @@
             matInput
             placeholder="Гистерезис"
             formControlName="hysteresis"
-            [value] = "controls && controls['tempMK']['gistGM']">
+            [value] = "hystGM">
         </mat-form-field>
 
         <mat-error *ngIf="settingsGm.controls['hysteresis'].invalid && settingsGm.controls['hysteresis'].dirty">
